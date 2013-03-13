@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>isDesktop</h2>
+<p>获取当前用户桌面的路径，然后根据参数做一些桌面相关的操作。
+因为很多情况都需要在桌面上操作，这个命令比较有价值哦~
+使用 call isDesktop 命令之后会生成 %Desktop% 变量，它存储着桌面的完整路径！</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Desktop&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\Desktop
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\桌面&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\桌面
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;Desktop <font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'REG QUERY </font><font color="#ffa0a0">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;Desktop&quot;</font><font color="#ff80ff">'</font>) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%%j</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Find the path of Desktop, or do something about Desktop </font>&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;after you run any command of isDesktop, the path of Desktop stored in </font><font color="#ffa500">%%</font><font color="#ffa0a0">Desktop</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;want more info? type echo </font><font color="#ffa500">%%</font><font color="#ffa0a0">Desktop</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;to check it. </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;</font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.isDesktop [option FileName [here]] </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Options: </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;copy this FILE to desktop </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;mv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move this FILE to desktop </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;rm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the FILE on desktop </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;rd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the DIR on desktop </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;notepad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; use notepad to open the desktop FILE </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; run the FILE on desktop </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;vi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use vi to open the desktop FILE </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;gvim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use gvim to open the desktop FILE </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;here&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This option only be used in two ways </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;copy File from Desktop to Here </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move File/Folder from Desktop to Here </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eg: isDesktop mv delly.neo here </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. If without option, just isDesktop FileName </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. judge the FILE on your Desktop or not, </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. and the result stored in </font><font color="#ffa500">%%</font><font color="#ffa0a0">is</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;</font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~ </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">type</font>&nbsp;<font color="#40ffff">%tmp%</font>\isDesktop.<font color="#40ffff">help</font><font color="#ffff00">&nbsp;| </font><font color="#40ffff">more</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~2&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;&quot;</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~1&quot;</font>&nbsp;( <font color="#40ffff">set</font><font color="#40ffff">&nbsp;is</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>&nbsp;) <font color="#ffff00">else</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;is</font><font color="#ffff00">=</font><font color="#ffa0a0">0</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Warning: No such file on Desktop!</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+)
+<font color="#40ffff">echo</font><font color="#ffa0a0">.cp mv run notepad rm rd vi gvim </font>| <font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;%~1&quot;</font>&nbsp;&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%errorlevel%</font>&nbsp;<font color="#ffff00">EQU</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Invaid param. type isDestkop /? for help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;is</font><font color="#ffff00">=</font><font color="#ffa0a0">0</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%3</font>.<font color="#ffff00">==</font>here. <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;res</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;cp&quot;</font>&nbsp;<font color="#40ffff">copy</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;<font color="#ffa0a0">&quot;%~2&quot;</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\&quot;</font>&nbsp;&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;mv&quot;</font>&nbsp;<font color="#40ffff">move</font>&nbsp;<font color="#ffa0a0">&quot;%~2&quot;</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">&quot;</font>&nbsp;&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;run&quot;</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;notepad&quot;</font>&nbsp;notepad.exe <font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;rm&quot;</font>&nbsp;<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font>&nbsp;&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;rd&quot;</font>&nbsp;<font color="#40ffff">rd</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font>&nbsp;&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;vi&quot;</font>&nbsp;vi <font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;gvim&quot;</font>&nbsp;gvim <font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+
+<font color="#ffff00">:res</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;is</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%is%</font><font color="#ffff00">==</font><font color="#ffa0a0">0</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;ErrNF</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;cp&quot;</font>&nbsp;<font color="#40ffff">copy</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font>&nbsp;. &gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;%~1&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;mv&quot;</font>&nbsp;<font color="#40ffff">move</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\%~2&quot;</font>&nbsp;. &gt; nul
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#ffff00">:ErrNF</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Sorry: Desktop\%~2 doesn't exist!</font>
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>看源代码稍稍有些头疼，因为在网页上面又想把代码弄得大一些，又想都放在 pre 标签里面，
+鱼和熊掌不可兼得嘛，为了推销自己的产品，还是挂上截图给大家瞧瞧吧：
+<div class='img'><img src='figure/p5-2.png' alt='isDesktop' width=720px /></div>
+斑驳敬上</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-7.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

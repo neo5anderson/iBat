@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>ll</h2>
+<p>因为 bash shell 的原因，斑驳一直在尝试着在 Windows 中写一写类似 shell命令 的脚本。
+下面这个脚本就是第一个的试验品。前前后后改过很多种运作方式，一直没有很好的解决问题，
+现在仍然有漏洞，大家多多反馈哦</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;list files more details, bash shell like</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;ll [path] [option] [FileName]</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Options:</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;/A[:Attributes] list all files</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or specific attribution</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R, A, H, S and so on</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;-n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see more details</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not </font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%*</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;-f&quot;</font>&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%cd%</font><font color="#ffa0a0">&nbsp;+ </font><font color="#40ffff">%*</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%llLastAD%</font><font color="#ffa0a0">&quot;</font>&nbsp;(<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;showup</font>)
+<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Args</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font>
+<font color="#ffff00">:loopBegin</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>. <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopEnd</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.-f <font color="#40ffff">shift</font>&nbsp;&amp;&amp; <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopBegin</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;NOT </font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.-n <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;Classic</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>
+<font color="#40ffff">shift</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopBegin</font>
+<font color="#ffff00">:Classic</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;filename</font><font color="#ffff00">=</font><font color="#40ffff">%1</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">shift</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopBegin</font>
+)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Args</font><font color="#ffff00">=</font><font color="#40ffff">!Args!</font>&nbsp;<font color="#40ffff">%1</font>
+<font color="#40ffff">shift</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopBegin</font>
+<font color="#ffff00">:loopEnd</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;neo <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;bash</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Directory: </font><font color="#40ffff">%CD%</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Processing . . .</font>
+
+<font color="#ffff00">:bash</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;filename (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#40ffff">%filename%</font>) do (<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">%%</font><font color="#ffa0a0">~aznxti </font>&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neostr1</font><font color="#ffff00">=</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neostr2</font><font color="#ffff00">=</font><font color="#40ffff">Time</font>&nbsp;@Byte@
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;showup</font>
+)
+<font color="#40ffff">dir</font>&nbsp;<font color="#40ffff">%Args%</font>&nbsp;<font color="#ffa500">/O</font><font color="#ffff00">:SEN</font>&nbsp;&gt; <font color="#40ffff">%tmp%</font>\lltmp.db <font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Invalid param. please type ll /? for help &amp; goto end</font>
+<font color="#ffff00">:llgo</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;pathhere</font><font color="#ffff00">=</font><font color="#40ffff">%cd%</font>
+<font color="#40ffff">pushd</font>&nbsp;\
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;paththere</font><font color="#ffff00">=</font><font color="#40ffff">%cd%</font>
+<font color="#40ffff">popd</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;个文件&quot;</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\lltmp.db&quot;</font><font color="#ff80ff">'</font>) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;countfiles</font><font color="#ffff00">=</font><font color="#40ffff">%%i</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;个目录&quot;</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\lltmp.db&quot;</font><font color="#ff80ff">'</font>) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;countdirs</font><font color="#ffff00">=</font><font color="#40ffff">%%i</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not </font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%pathhere%</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%paththere%</font><font color="#ffa0a0">&quot;</font>&nbsp;(<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;countdirs</font><font color="#ffff00">=</font><font color="#40ffff">%countdirs%</font>-2)
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;calc</font><font color="#ffff00">=</font><font color="#40ffff">%countfiles%</font>+<font color="#40ffff">%countdirs%</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%calc%</font><font color="#ffff00">==</font>.0 <font color="#40ffff">echo</font><font color="#ffa0a0">. - Empty Here- &amp;&amp; goto end</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\lltmp.neo </font>&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;pathd</font><font color="#ffff00">=</font><font color="#ffa0a0">5</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%pathhere%</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%paththere%</font><font color="#ffa0a0">&quot;</font>&nbsp;(<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;pathd</font><font color="#ffff00">-=</font><font color="#ffa0a0">2</font>)
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">3</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">dir</font><font color="#ff80ff">&nbsp;c:\Window? ^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;&lt;&quot;</font><font color="#ff80ff">'</font>) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;#</font><font color="#40ffff">%%i</font><font color="#ffa0a0"># </font>&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo.tmp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;&lt;DIR&gt;&quot;</font>&nbsp;<font color="#40ffff">%tmp%</font>\lltmp.neo.tmp &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(<font color="#40ffff">set</font><font color="#40ffff">&nbsp;timed</font><font color="#ffff00">=</font><font color="#ffa0a0">4</font>*) <font color="#ffff00">else</font>&nbsp;(<font color="#40ffff">set</font><font color="#40ffff">&nbsp;timed</font><font color="#ffff00">=</font><font color="#ffa0a0">3</font>*)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">del</font>&nbsp;<font color="#40ffff">%tmp%</font>\lltmp.neo.tmp
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%timed%</font><font color="#ffff00">==</font><font color="#ffa0a0">4</font>* (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neostr1</font><font color="#ffff00">=</font>#####
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neostr2</font><font color="#ffff00">=</font>&nbsp;<font color="#40ffff">Time</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Byte@ 
+) <font color="#ffff00">else</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neostr1</font><font color="#ffff00">=</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neostr2</font><font color="#ffff00">=</font><font color="#40ffff">Time</font>&nbsp;@Byte@
+)
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;skip=</font><font color="#40ffff">%pathd%</font><font color="#ffa0a0">&nbsp;tokens=</font><font color="#40ffff">%timed%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;:&quot;</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\lltmp.db&quot;</font><font color="#ff80ff">'</font>) do (<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">%%</font><font color="#ffa0a0">~aznxtj </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo)
+<font color="#ffff00">:showup</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;neo (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;##############</font><font color="#40ffff">%neostr1%</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%date:~5,5%</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%time:~0,5%</font><font color="#ffa0a0">&nbsp;##############</font><font color="#40ffff">%neostr1%</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Attribute ModifyDate </font><font color="#40ffff">%neostr2%</font><font color="#ffa0a0">&nbsp;FileName </font>) <font color="#ffff00">else</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">type</font>&nbsp;<font color="#40ffff">%tmp%</font>\lltmp.neo<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa500">/v</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\lltmp.neo&quot;</font><font color="#ffff00">&nbsp;| </font><font color="#40ffff">more</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;end</font>&nbsp;)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;filename (<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%countfiles%</font>&nbsp;<font color="#ffff00">EQU</font>&nbsp;<font color="#ffa0a0">0</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;showdir</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%countfiles%</font>&nbsp;<font color="#ffff00">EQU</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. only a file </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo ) <font color="#ffff00">else</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#40ffff">%countfiles%</font><font color="#ffa0a0">&nbsp;total files </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo )
+<font color="#ffff00">:showdir</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%countdirs%</font>&nbsp;<font color="#ffff00">LSS</font>&nbsp;<font color="#ffa0a0">0</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%countdirs%</font>&nbsp;<font color="#ffff00">EQU</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp; and a direcotry </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo ) <font color="#ffff00">else</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#40ffff">%countdirs%</font><font color="#ffa0a0">&nbsp;total DIRs </font>&gt;&gt; <font color="#40ffff">%tmp%</font>\lltmp.neo )
+<font color="#40ffff">type</font>&nbsp;<font color="#40ffff">%tmp%</font>\lltmp.neo<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa500">/v</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\lltmp.neo&quot;</font><font color="#ffff00">&nbsp;| </font><font color="#40ffff">more</font>
+
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#ffff00">:end</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%tmp%</font>\lltmp.db <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%tmp%</font>\lltmp.db &gt; nul
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;llLastAD</font><font color="#ffff00">=</font><font color="#40ffff">%cd%</font><font color="#ffff00">&nbsp;+ </font><font color="#40ffff">%*</font>
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>ls 是 shell 中列取目录中文件的命令，一般在 .bashrc 中会做别名 ll='ls -l'。
+频繁切换平台时，斑驳常常在 Windows 中使用 ll 回车、clear 回车...
+但是又不想安装第三方的 类shell环境，所以就自给自足了。
+这个版本的 ll 有 -n 选项，有点意思哦。
+如果目录中文件过多，显示会稍微慢了一点，所以又添加了重复位置和命令检测的功能。
+如果当期的目录结构发生变化之后，重复上一个命令就不会显示出来了；
+为此又加入了 -f 选项，强制更新列表库，生成详细列表。
+<div class='img'><img src='figure/p5-3.png' alt='ll-n' width=720px /></div>
+额外说明一下，斑驳修改了系统时间显示的字符。
+原本表示上午 am 改成 loading，下午的 pm 改成了 upgrading。
+比如现在时间是上午十点多，斑驳机器的右下角就会显示出
+<div class='img'><img src='figure/p5-4.png' alt='mytime' /></div>
+这样子导致就导致了后面的文件大小以及文件名不能自动对齐的问题。
+如果读者的机器上并没有做这种设定，这些信息就会比较整齐的显示出来了。</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-8.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

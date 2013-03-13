@@ -1,0 +1,694 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>backupServ</h2>
+<p>Windows 使用时间久了，运行会变的很慢，让人很不爽。
+除了删除垃圾文件、优化注册表这些操作之外，系统服务的修改也是很重要的。
+可是系统管理员不是满天下都有的，系统服务的名字又不好记，第三方的软件很多也不能提供备份。
+为此写了这个脚本，里面涵盖了备份、优化常见版本 Windows 的服务。</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#ffff00">:menu</font>
+<font color="#40ffff">cls</font>
+<font color="#40ffff">title</font>&nbsp;Services management script
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">1</font><font color="#ffa0a0">. Backup all services' state</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">2</font><font color="#ffa0a0">. Restore service backup</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">3</font><font color="#ffa0a0">. Quit</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.update:</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">4</font><font color="#ffa0a0">. Windows XP default services configuration</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">5</font><font color="#ffa0a0">. Windows XP optimized services configuration</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">6</font><font color="#ffa0a0">. Windows Server </font><font color="#ffa0a0">2003</font><font color="#ffa0a0">&nbsp;optimized services configuration</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">7</font><font color="#ffa0a0">. Windows </font><font color="#ffa0a0">7</font><font color="#ffa0a0">&nbsp;default services configuration </font><font color="#ffa500">^(</font><font color="#ffa0a0">experimental</font><font color="#ffa500">^)</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#ffa0a0">8</font><font color="#ffa0a0">. Super lite Windows services mode </font><font color="#ffa500">^(</font><font color="#ffa0a0">Advanced user only</font><font color="#ffa500">^)</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;choice</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;choice</font><font color="#ffff00">=</font>Input your choice here:&nbsp;&nbsp;
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.1 <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;BakServ</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.2 <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;Restore</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.3 <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;serv</font><font color="#ffff00">=</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.6 <font color="#ffff00">call</font>&nbsp;Serv23.bat<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.7 <font color="#ffff00">call</font>&nbsp;Serv7.bat<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.4 <font color="#40ffff">set</font><font color="#40ffff">&nbsp;serv</font><font color="#ffff00">=</font>default
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.5 <font color="#40ffff">set</font><font color="#40ffff">&nbsp;serv</font><font color="#ffff00">=</font>optixp
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%choice%</font><font color="#ffff00">==</font>.8 <font color="#40ffff">set</font><font color="#40ffff">&nbsp;serv</font><font color="#ffff00">=</font>lite
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;serv <font color="#ffff00">call</font>&nbsp;Servxp.bat<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Sorry, wrong choice! &amp; ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 </font>&gt;nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">:BakServ</font>
+<font color="#40ffff">cls</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">,2 delims=: &quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">time</font><font color="#ff80ff">&nbsp;/t'</font>) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakname</font><font color="#ffff00">=</font>-<font color="#40ffff">%%i</font>-<font color="#40ffff">%%j</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakname</font><font color="#ffff00">=</font>Serv<font color="#40ffff">%date:~5,2%</font>-<font color="#40ffff">%date:~8,2%%bakname%</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Let's backup all services</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. the bak file store into </font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\ </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. and named &quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. press ENTER to get backup . . .</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;backup</font><font color="#ffff00">=</font><font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>you don't like the name, you can <font color="#40ffff">type</font>&nbsp;a new name here:&nbsp;&nbsp;
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;backup <font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakname</font><font color="#ffff00">=</font><font color="#40ffff">%backup%</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;backup</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakname</font><font color="#ffff00">=</font><font color="#40ffff">%bakname%</font>.bat
+<font color="#40ffff">pushd</font>&nbsp;<font color="#40ffff">%tmp%</font>
+sc query<font color="#40ffff">&nbsp;type</font><font color="#ffff00">=</font>&nbsp;service<font color="#40ffff">&nbsp;state</font><font color="#ffff00">=</font>&nbsp;all<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;SERVICE_NAME&quot;</font>&nbsp;&gt; serv.name
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;serv.list <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;serv.list
+<font color="#40ffff">cls</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;Loading . . .</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (serv.name) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">4</font><font color="#ffa0a0">,5 delims=:_ &quot;</font>&nbsp;<font color="#40ffff">%%j</font>&nbsp;in (<font color="#ff80ff">'sc qc </font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%i</font><font color="#ffa0a0">&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;START_TYPE&quot;</font><font color="#ff80ff">'</font>) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%k</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; serv.list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;serv.list.db <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;serv.list.db &gt; nul
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">,2,3&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (serv.list) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;DEMAND&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">4</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (<font color="#ff80ff">'sc query </font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%i</font><font color="#ffa0a0">&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;STATE&quot;</font><font color="#ff80ff">'</font>) do ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%a</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; serv.list.db<font color="#ffff00">&nbsp;&amp; </font><font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Service: </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;is </font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;now </font><font color="#ffa500">^(</font><font color="#40ffff">%%a</font><font color="#ffa500">^)</font><font color="#ffa0a0">&nbsp;</font>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) <font color="#ffff00">else</font>&nbsp;( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%k</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; serv.list.db<font color="#ffff00">&nbsp;&amp; </font><font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Service: </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;is </font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;now </font><font color="#ffa500">^(</font><font color="#40ffff">%%k</font><font color="#ffa0a0">.</font><font color="#ffa500">^)</font><font color="#ffa0a0">&nbsp;</font>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+)
+<font color="#40ffff">echo</font><font color="#ffa0a0">.title Restore all services </font>&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.echo off </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.echo.</font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.echo. please wait for me a while </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.echo. loading . . . </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 -n </font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.echo. </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">,2,3&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (serv.list.db) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;DISABLED&quot;</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;net STOP </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa0a0">2</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;sc config </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;start= </font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;AUTO&quot;</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;net START </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa0a0">2</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%k</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;RUNNING&quot;</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;net START </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa0a0">2</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%%k</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;STOPPED&quot;</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;net STOP </font><font color="#40ffff">%%i</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa0a0">2</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+)
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;color </font><font color="#ffa0a0">0</font><font color="#ffa0a0">e </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 -n </font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;color </font><font color="#ffa0a0">0</font><font color="#ffa0a0">a </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;echo. </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;echo. Done! </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 -n </font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;nul </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Cleaning up . . .</font>
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;serv.* &gt; nul
+<font color="#40ffff">move</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakname%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\&quot;</font>&nbsp;&gt; nul
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">1</font>&nbsp;&gt; nul
+<font color="#40ffff">popd</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Done, press any key to continue . . .</font>
+<font color="#40ffff">pause</font>&nbsp;&gt; nul
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">:Restore</font>
+<font color="#40ffff">pushd</font>&nbsp;<font color="#40ffff">%userprofile%</font>
+<font color="#40ffff">dir</font>&nbsp;Serv??-??-??-??.bat &gt; nul <font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;seemore</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;bak.list <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;bak.list &gt; nul
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">3</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">dir</font><font color="#ff80ff">&nbsp;Serv??-??-??-??.bat ^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;/i </font><font color="#ffa0a0">&quot;.bat&quot;</font><font color="#ff80ff">'</font>) do ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; bak.list )
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. That's what I found:</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">type</font>&nbsp;bak.list<font color="#ffff00">&nbsp;| </font><font color="#40ffff">more</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. If you want to see more script files, press ENTER to continue . . .</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakfile</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;bakfile</font><font color="#ffff00">=</font>Which one to <font color="#40ffff">restore</font>:&nbsp;&nbsp;
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;bakfile <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;seemore</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakfile%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#ffff00">call</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakfile%</font><font color="#ffa0a0">&quot;</font>&nbsp;&amp;<font color="#40ffff">popd</font>&amp; <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">:seemore</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">more</font>.list <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">more</font>.list &gt; nul
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">3</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">dir</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;/i </font><font color="#ffa0a0">&quot;.bat&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">findstr</font><font color="#ff80ff">&nbsp;/v /i </font><font color="#ffa0a0">&quot;Serv[[0-9]*-]*&quot;</font><font color="#ff80ff">'</font>) do ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%j</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; <font color="#40ffff">more</font>.list )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">more</font>.list <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;showBat</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>b
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Sorry, no script file found &amp; goto whereBat</font>
+<font color="#ffff00">:showBat</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Maybe you have modified the file's name</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. here is a list of all scripts on your home path:</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">type</font>&nbsp;<font color="#40ffff">more</font>.list<font color="#ffff00">&nbsp;| </font><font color="#40ffff">more</font>
+<font color="#ffff00">:whereBat</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. press ENTER to back the main menu . . .</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;bak.list <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;bak.list &gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">more</font>.list <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">more</font>.list &gt; nul
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;bakpath</font><font color="#ffff00">=</font>Or, input the script name listed here:&nbsp;&nbsp;
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;bakpath <font color="#40ffff">popd</font>&amp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakpath%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#ffff00">call</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%bakpath%</font><font color="#ffa0a0">&quot;</font>&nbsp;&amp;<font color="#40ffff">popd</font>&amp; <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Sorry, script file doesn't exist! &amp; ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 </font>&gt; nul &amp;<font color="#40ffff">popd</font>&amp; <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;menu</font>
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;choice</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;serv</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakfile</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakpath</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bakname</font><font color="#ffff00">=</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. bye </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Yours, Neo &amp; ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 -n </font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;</font>&gt; nul
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>上面的脚本是 iServ.bat 文件的内容。但是单纯的 iServ 是不够的，还需要各个版本Windows服务的样本文件。
+斑驳已将各种版本优化服务列表及默认服务列表总结制作成对应版本的文件，请注意匹配文件名<br>
+这是 XP 的脚本 Servxp.bat：
+<pre class='src'>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%serv%</font><font color="#ffff00">==</font>default <font color="#40ffff">set</font><font color="#40ffff">&nbsp;default</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%serv%</font><font color="#ffff00">==</font>optixp <font color="#40ffff">set</font><font color="#40ffff">&nbsp;optixp</font><font color="#ffff00">=</font><font color="#ffa0a0">2</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%serv%</font><font color="#ffff00">==</font>lite <font color="#40ffff">set</font><font color="#40ffff">&nbsp;lite</font><font color="#ffff00">=</font><font color="#ffa0a0">3</font>
+sc config Alerter<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Alerter 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config ALG<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config ALG<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop ALG )
+sc config AppMgmt<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config AudioSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;AudioSrv 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config BITS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config BITS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop BITS )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config Browser<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Browser ) <font color="#ffff00">else</font>&nbsp;( sc config Browser<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Browser )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config CiSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config CiSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop CiSvc )
+sc config CiSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config ClipSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop ClipSrv 
+sc config COMSysApp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config CryptSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;CryptSvc 
+sc config DcomLaunch<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;DcomLaunch 
+sc config Dhcp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Dhcp 
+sc config dmadmin<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config dmserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;dmserver ) <font color="#ffff00">else</font>&nbsp;( sc config dmserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND )
+sc config Dnscache<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Dnscache 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config ERSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;ERSvc ) <font color="#ffff00">else</font>&nbsp;( sc config ERSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop ERSvc )
+sc config Eventlog<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Eventlog 
+sc config EventSystem<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config FastUserSwitchingCompatibility<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config helpsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;helpsvc ) <font color="#ffff00">else</font>&nbsp;( sc config helpsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop helpsvc )
+sc config HidServ<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop HidServ 
+sc config HTTPFilter<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config ImapiService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config ImapiService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop ImapiService )
+sc config ImapiService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config lanmanserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;lanmanserver ) <font color="#ffff00">else</font>&nbsp;( sc config lanmanserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop lanmanserver )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;lite ( sc config lanmanworkstation<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config lanmanworkstation<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;lanmanworkstation )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config LmHosts<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;LmHosts ) <font color="#ffff00">else</font>&nbsp;( sc config LmHosts<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop LmHosts )
+sc config Messenger<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Messenger 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;lite ( sc config mnmsrvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop mnmsrvc ) <font color="#ffff00">else</font>&nbsp;( sc config mnmsrvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config MSDTC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config MSDTC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop MSDTC )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;lite ( sc config MSIServer<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop MSIServer ) <font color="#ffff00">else</font>&nbsp;( sc config MSIServer<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND )
+sc config NetDDE<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop NetDDE 
+sc config NetDDEdsdm<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop NetDDEdsdm 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config Netlogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config Netlogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Netlogon )
+sc config Netman<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config Nla<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config Nla<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Nla )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config NtLmSsp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config NtLmSsp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop NtLmSsp )
+sc config NtmsSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config PlugPlay<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;PlugPlay 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config PolicyAgent<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;PolicyAgent ) <font color="#ffff00">else</font>&nbsp;( sc config PolicyAgent<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop PolicyAgent )
+sc config ProtectedStorage<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;ProtectedStorage 
+sc config RasAuto<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config RasMan<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config RDSessMgr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config RDSessMgr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop RDSessMgr )
+sc config RemoteAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop RemoteAccess 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config RemoteRegistry<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;RemoteRegistry ) <font color="#ffff00">else</font>&nbsp;( sc config RemoteRegistry<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop RemoteRegistry )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config RpcLocator<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config RpcLocator<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop RpcLocator )
+sc config RpcSs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;RpcSs 
+sc config RSVP<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config SamSs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;SamSs 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config SCardSvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config SCardSvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop SCardSvr )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;lite ( sc config Schedule<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Schedule ) <font color="#ffff00">else</font>&nbsp;( sc config Schedule<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Schedule )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config seclogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;seclogon ) <font color="#ffff00">else</font>&nbsp;( sc config seclogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop seclogon )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;lite ( sc config SENS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop SENS ) <font color="#ffff00">else</font>&nbsp;( sc config SENS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;SENS ) 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config SharedAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;SharedAccess ) <font color="#ffff00">else</font>&nbsp;( sc config SharedAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop SharedAccess )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;defualt ( sc config ShellHWDetection<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;ShellHWDetection ) <font color="#ffff00">else</font>&nbsp;( sc config ShellHWDetection<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop ShellHWDetection )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config Spooler<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Spooler ) <font color="#ffff00">else</font>&nbsp;( sc config Spooler<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Spooler )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config srservice<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;srservice ) <font color="#ffff00">else</font>&nbsp;( sc config srservice<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop srservice )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config SSDPSRV<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config SSDPSRV<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop SSDPSRV )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config stisvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config stisvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop stisvc ) 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config SwPrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config SwPrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop SwPrv )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config SysmonLog<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config SysmonLog<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop SysmonLog )
+sc config TapiSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config TermService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config TermService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop TermService )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;lite ( sc config Themes<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop Themes ) <font color="#ffff00">else</font>&nbsp;( sc config Themes<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;Themes )
+sc config TlntSvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop TlntSvr 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config TrkWks<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;TrkWks ) <font color="#ffff00">else</font>&nbsp;( sc config TrkWks<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop TrkWks )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config upnphost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config upnphost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop upnphost )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config UPS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config UPS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop UPS )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config VSS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config VSS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop VSS )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config W32Time<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;W32Time ) <font color="#ffff00">else</font>&nbsp;( sc config W32Time<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop W32Time )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config WebClient<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;WebClient ) <font color="#ffff00">else</font>&nbsp;( sc config WebClient<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop WebClient )
+sc config winmgmt<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;winmgmt 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config WmdmPmSN<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config WmdmPmSN<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop WmdmPmSN )
+sc config Wmi<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config WmiApSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND ) <font color="#ffff00">else</font>&nbsp;( sc config WmiApSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop WmiApSrv )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config wscsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;wscsvc ) <font color="#ffff00">else</font>&nbsp;( sc config wscsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop wscsvc )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config wuauserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;wuauserv ) <font color="#ffff00">else</font>&nbsp;( sc config wuauserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop wuauserv )
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;default ( sc config WZCSVC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO<font color="#ffff00">&nbsp;&amp; </font>net <font color="#40ffff">start</font>&nbsp;WZCSVC ) <font color="#ffff00">else</font>&nbsp;( sc config WZCSVC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED<font color="#ffff00">&nbsp;&amp; </font>net stop WZCSVC )
+sc config xmlprov<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Done, press any key to continue . . .</font>
+<font color="#40ffff">pause</font>&nbsp;&gt; nul
+</pre>
+这是 Server 2003 的脚本 Serv23.bat：
+<pre class='src'>
+sc config AeLookupSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO
+sc config Alerter<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config ALG<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config AppMgmt<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config AudioSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config BITS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED
+sc config Browser<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED
+sc config CiSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config ClipSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config COMSysApp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config CryptSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config DcomLaunch<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config Dfs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config Dhcp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config dmadmin<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config dmserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config Dnscache<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config ERSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Eventlog<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config EventSystem<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config helpsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config HidServ<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config HTTPFilter<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config ImapiService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED
+sc config IsmServ<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config kdc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config lanmanserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED
+sc config lanmanworkstation<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config LicenseService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config LmHosts<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Messenger<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config mnmsrvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config MSDTC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config MSIServer<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config NetDDE<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config NetDDEdsdm<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Netlogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Netman<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config Nla<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config NtFrs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config NtLmSsp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config NtmsSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config PlugPlay<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config PolicyAgent<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config ProtectedStorage<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config RasAuto<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config RasMan<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config RDSessMgr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config remoteAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config remoteRegistry<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config RpcLocator<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config RpcSs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config RSoPProv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config sacsvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config SamSs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config SCardSvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Schedule<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config seclogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config SENS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config SharedAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config ShellHWDetection<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config Spooler<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config stisvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config swprv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config SysmonLog<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config TapiSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config TermService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Themes<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config TrkSvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config TrkWks<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Tssdis<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config UMWdf<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config UPS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config vds<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config VSS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config W32Time<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config WebClient<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config WinHttpAutoProxySvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config winmgmt<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+sc config WmdmPmSN<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Wmi<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+sc config WmiApSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config wuauserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config WZCSVC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config xmlprov<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Done, press any key to continu . . .</font>
+<font color="#40ffff">pause</font>&nbsp;&gt; nul
+</pre>
+这是 Windows 7 的脚本 Serv7.bat：
+<pre class='src'>
+<font color="#40ffff">title</font>&nbsp;<font color="#40ffff">Restore</font>&nbsp;Windows <font color="#ffa0a0">7</font>&nbsp;default services
+<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. please wait for me a while </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. loading . . . </font>
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">2</font>&nbsp;&gt; nul 
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>
+sc config AeLookupSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;AeLookupSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config ALG<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP ALG <font color="#ffa0a0">2</font>&gt; nul 
+sc config AppIDSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP AppIDSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config Appinfo<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP Appinfo <font color="#ffa0a0">2</font>&gt; nul 
+sc config AppMgmt<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP AppMgmt <font color="#ffa0a0">2</font>&gt; nul 
+sc config AudioEndpointBuilder<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;AudioEndpointBuilder <font color="#ffa0a0">2</font>&gt; nul 
+sc config Audiosrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Audiosrv <font color="#ffa0a0">2</font>&gt; nul 
+sc config AxInstSV<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP AxInstSV <font color="#ffa0a0">2</font>&gt; nul 
+sc config BDESVC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP BDESVC <font color="#ffa0a0">2</font>&gt; nul 
+sc config BFE<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;BFE <font color="#ffa0a0">2</font>&gt; nul 
+sc config BITS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;BITS <font color="#ffa0a0">2</font>&gt; nul 
+sc config Browser<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP Browser <font color="#ffa0a0">2</font>&gt; nul 
+sc config bthserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP bthserv <font color="#ffa0a0">2</font>&gt; nul 
+sc config CertPropSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP CertPropSvc <font color="#ffa0a0">2</font>&gt; nul 
+net STOP clr_optimization_v2.0.50727_32 <font color="#ffa0a0">2</font>&gt; nul 
+sc config clr_optimization_v2.0.50727_32<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config clr_optimization_v4.0.30319_32<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;clr_optimization_v4.0.30319_32 <font color="#ffa0a0">2</font>&gt; nul 
+sc config COMSysApp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP COMSysApp <font color="#ffa0a0">2</font>&gt; nul 
+sc config CryptSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;CryptSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config CscService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;CscService <font color="#ffa0a0">2</font>&gt; nul 
+sc config DcomLaunch<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;DcomLaunch <font color="#ffa0a0">2</font>&gt; nul 
+sc config defragsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP defragsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config Dhcp<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Dhcp <font color="#ffa0a0">2</font>&gt; nul 
+sc config Dnscache<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Dnscache <font color="#ffa0a0">2</font>&gt; nul 
+sc config dot3svc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP dot3svc <font color="#ffa0a0">2</font>&gt; nul 
+sc config DPS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;DPS <font color="#ffa0a0">2</font>&gt; nul 
+sc config EapHost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP EapHost <font color="#ffa0a0">2</font>&gt; nul 
+sc config EFS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP EFS <font color="#ffa0a0">2</font>&gt; nul 
+sc config ehRecvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP ehRecvr <font color="#ffa0a0">2</font>&gt; nul 
+sc config ehSched<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP ehSched <font color="#ffa0a0">2</font>&gt; nul 
+sc config eventlog<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;eventlog <font color="#ffa0a0">2</font>&gt; nul 
+sc config EventSystem<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;EventSystem <font color="#ffa0a0">2</font>&gt; nul 
+sc config Fax<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP Fax <font color="#ffa0a0">2</font>&gt; nul 
+sc config fdPHost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP fdPHost <font color="#ffa0a0">2</font>&gt; nul 
+sc config FDResPub<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP FDResPub <font color="#ffa0a0">2</font>&gt; nul 
+sc config FontCache<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP FontCache <font color="#ffa0a0">2</font>&gt; nul 
+sc config FontCache3.0.0.0<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP FontCache3.0.0.0 <font color="#ffa0a0">2</font>&gt; nul 
+sc config gpsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;gpsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config hidserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP hidserv <font color="#ffa0a0">2</font>&gt; nul 
+sc config hkmsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP hkmsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config HomeGroupListener<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP HomeGroupListener <font color="#ffa0a0">2</font>&gt; nul 
+sc config HomeGroupProvider<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP HomeGroupProvider <font color="#ffa0a0">2</font>&gt; nul 
+sc config idsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP idsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config IKEEXT<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP IKEEXT <font color="#ffa0a0">2</font>&gt; nul 
+sc config IPBusEnum<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP IPBusEnum <font color="#ffa0a0">2</font>&gt; nul 
+net STOP iphlpsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config iphlpsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config KeyIso<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP KeyIso <font color="#ffa0a0">2</font>&gt; nul 
+sc config KtmRm<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP KtmRm <font color="#ffa0a0">2</font>&gt; nul 
+sc config LanmanServer<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;LanmanServer <font color="#ffa0a0">2</font>&gt; nul 
+sc config LanmanWorkstation<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;LanmanWorkstation <font color="#ffa0a0">2</font>&gt; nul 
+sc config lltdsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP lltdsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config lmhosts<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;lmhosts <font color="#ffa0a0">2</font>&gt; nul 
+net STOP Mcx2Svc <font color="#ffa0a0">2</font>&gt; nul 
+sc config Mcx2Svc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config MMCSS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;MMCSS <font color="#ffa0a0">2</font>&gt; nul 
+sc config MpsSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;MpsSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config MSDTC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP MSDTC <font color="#ffa0a0">2</font>&gt; nul 
+sc config MSiSCSI<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP MSiSCSI <font color="#ffa0a0">2</font>&gt; nul 
+sc config msiserver<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP msiserver <font color="#ffa0a0">2</font>&gt; nul 
+sc config napagent<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP napagent <font color="#ffa0a0">2</font>&gt; nul 
+sc config Netlogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP Netlogon <font color="#ffa0a0">2</font>&gt; nul 
+sc config Netman<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;Netman <font color="#ffa0a0">2</font>&gt; nul 
+sc config netprofm<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;netprofm <font color="#ffa0a0">2</font>&gt; nul 
+net STOP NetTcpPortSharing <font color="#ffa0a0">2</font>&gt; nul 
+sc config NetTcpPortSharing<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config NlaSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;NlaSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config nsi<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;nsi <font color="#ffa0a0">2</font>&gt; nul 
+sc config odserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP odserv <font color="#ffa0a0">2</font>&gt; nul 
+sc config ose<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP ose <font color="#ffa0a0">2</font>&gt; nul 
+sc config p2pimsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP p2pimsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config p2psvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP p2psvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config PcaSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;PcaSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config PeerDistSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP PeerDistSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config pla<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP pla <font color="#ffa0a0">2</font>&gt; nul 
+sc config PlugPlay<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;PlugPlay <font color="#ffa0a0">2</font>&gt; nul 
+sc config PNRPAutoReg<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP PNRPAutoReg <font color="#ffa0a0">2</font>&gt; nul 
+sc config PNRPsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP PNRPsvc <font color="#ffa0a0">2</font>&gt; nul 
+net STOP PolicyAgent <font color="#ffa0a0">2</font>&gt; nul 
+sc config PolicyAgent<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config Power<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Power <font color="#ffa0a0">2</font>&gt; nul 
+sc config ProfSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;ProfSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config ProtectedStorage<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP ProtectedStorage <font color="#ffa0a0">2</font>&gt; nul 
+sc config QWAVE<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP QWAVE <font color="#ffa0a0">2</font>&gt; nul 
+sc config RasAuto<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP RasAuto <font color="#ffa0a0">2</font>&gt; nul 
+sc config RasMan<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP RasMan <font color="#ffa0a0">2</font>&gt; nul 
+net STOP RemoteAccess <font color="#ffa0a0">2</font>&gt; nul 
+sc config RemoteAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+net STOP RemoteRegistry <font color="#ffa0a0">2</font>&gt; nul 
+sc config RemoteRegistry<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config RpcEptMapper<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;RpcEptMapper <font color="#ffa0a0">2</font>&gt; nul 
+sc config RpcLocator<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP RpcLocator <font color="#ffa0a0">2</font>&gt; nul 
+sc config RpcSs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;RpcSs <font color="#ffa0a0">2</font>&gt; nul 
+sc config SamSs<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;SamSs <font color="#ffa0a0">2</font>&gt; nul 
+sc config SCardSvr<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SCardSvr <font color="#ffa0a0">2</font>&gt; nul 
+sc config Schedule<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Schedule <font color="#ffa0a0">2</font>&gt; nul 
+sc config SCPolicySvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SCPolicySvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config SDRSVC<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SDRSVC <font color="#ffa0a0">2</font>&gt; nul 
+net STOP seclogon <font color="#ffa0a0">2</font>&gt; nul 
+sc config seclogon<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+net STOP SENS <font color="#ffa0a0">2</font>&gt; nul 
+sc config SENS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config SensrSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SensrSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config SessionEnv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SessionEnv <font color="#ffa0a0">2</font>&gt; nul 
+net STOP SharedAccess <font color="#ffa0a0">2</font>&gt; nul 
+sc config SharedAccess<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config ShellHWDetection<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;ShellHWDetection <font color="#ffa0a0">2</font>&gt; nul 
+sc config SNMPTRAP<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SNMPTRAP <font color="#ffa0a0">2</font>&gt; nul 
+sc config Spooler<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Spooler <font color="#ffa0a0">2</font>&gt; nul 
+sc config sppsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;sppsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config sppuinotify<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP sppuinotify <font color="#ffa0a0">2</font>&gt; nul 
+net STOP SSDPSRV <font color="#ffa0a0">2</font>&gt; nul 
+sc config SSDPSRV<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config SstpSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP SstpSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config StiSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;StiSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config swprv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP swprv <font color="#ffa0a0">2</font>&gt; nul 
+sc config SysMain<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;SysMain <font color="#ffa0a0">2</font>&gt; nul 
+sc config TabletInputService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP TabletInputService <font color="#ffa0a0">2</font>&gt; nul 
+sc config TapiSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP TapiSrv <font color="#ffa0a0">2</font>&gt; nul 
+sc config TBS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP TBS <font color="#ffa0a0">2</font>&gt; nul 
+sc config TermService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP TermService <font color="#ffa0a0">2</font>&gt; nul 
+sc config Themes<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Themes <font color="#ffa0a0">2</font>&gt; nul 
+sc config THREADORDER<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP THREADORDER <font color="#ffa0a0">2</font>&gt; nul 
+sc config TPAutoConnSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP TPAutoConnSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config TrkWks<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;TrkWks <font color="#ffa0a0">2</font>&gt; nul 
+sc config TrustedInstaller<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP TrustedInstaller <font color="#ffa0a0">2</font>&gt; nul 
+sc config UI0Detect<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP UI0Detect <font color="#ffa0a0">2</font>&gt; nul 
+sc config UmRdpService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP UmRdpService <font color="#ffa0a0">2</font>&gt; nul 
+sc config upnphost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP upnphost <font color="#ffa0a0">2</font>&gt; nul 
+sc config UxSms<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;UxSms <font color="#ffa0a0">2</font>&gt; nul 
+sc config VaultSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP VaultSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config vds<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP vds <font color="#ffa0a0">2</font>&gt; nul 
+sc config vmdesched<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP vmdesched <font color="#ffa0a0">2</font>&gt; nul 
+sc config VMTools<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;VMTools <font color="#ffa0a0">2</font>&gt; nul 
+sc config VSS<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP VSS <font color="#ffa0a0">2</font>&gt; nul 
+sc config W32Time<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP W32Time <font color="#ffa0a0">2</font>&gt; nul 
+sc config wbengine<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP wbengine <font color="#ffa0a0">2</font>&gt; nul 
+sc config WbioSrvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WbioSrvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config wcncsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP wcncsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config WcsPlugInService<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WcsPlugInService <font color="#ffa0a0">2</font>&gt; nul 
+sc config WdiServiceHost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;WdiServiceHost <font color="#ffa0a0">2</font>&gt; nul 
+sc config WdiSystemHost<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;WdiSystemHost <font color="#ffa0a0">2</font>&gt; nul 
+sc config WebClient<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WebClient <font color="#ffa0a0">2</font>&gt; nul 
+sc config Wecsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP Wecsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config wercplsupport<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP wercplsupport <font color="#ffa0a0">2</font>&gt; nul 
+net STOP WerSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config WerSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config WinDefend<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;WinDefend <font color="#ffa0a0">2</font>&gt; nul 
+sc config WinHttpAutoProxySvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WinHttpAutoProxySvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config Winmgmt<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;Winmgmt <font color="#ffa0a0">2</font>&gt; nul 
+sc config WinRM<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WinRM <font color="#ffa0a0">2</font>&gt; nul 
+sc config Wlansvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP Wlansvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config wmiApSrv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP wmiApSrv <font color="#ffa0a0">2</font>&gt; nul 
+sc config WMPNetworkSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WMPNetworkSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config WPCSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WPCSvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config WPDBusEnum<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net <font color="#40ffff">START</font>&nbsp;WPDBusEnum <font color="#ffa0a0">2</font>&gt; nul 
+sc config wscsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;wscsvc <font color="#ffa0a0">2</font>&gt; nul 
+net STOP WSearch <font color="#ffa0a0">2</font>&gt; nul 
+sc config WSearch<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DISABLED 
+sc config wuauserv<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;AUTO 
+net <font color="#40ffff">START</font>&nbsp;wuauserv <font color="#ffa0a0">2</font>&gt; nul 
+sc config wudfsvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP wudfsvc <font color="#ffa0a0">2</font>&gt; nul 
+sc config WwanSvc<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;DEMAND 
+net STOP WwanSvc <font color="#ffa0a0">2</font>&gt; nul 
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e 
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">2</font>&nbsp;&gt; nul 
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a 
+<font color="#40ffff">echo</font><font color="#ffa0a0">. </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Done! </font>
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">2</font>&nbsp;&gt; nul 
+</pre>
+好长呀，O(∩_∩)O~
+如果想偷懒，mail我，送你一份自解压的 iServ，自我感觉良好ing</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-9.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

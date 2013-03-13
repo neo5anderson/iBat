@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 附录</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<h2>&nbsp;~ ps: <em>reg 初步</em></h2><br>
+<p>iBatch v1.0 中提到过 reg 命令，可能因为是英文版的原因，不怎么受到欢迎。还是换成汉语提供给大家吧。</p>
+
+<pre>
+reg 命令是用于字符字符界面的注册表编辑工具，通过 reg /? 即可查看系统帮助信息，很全的说
+.reg 的文件可以通过双击直接添加或者修改注册表，因为它们都是文本文件，所以可以手动编辑
+
+这里有个 .reg 文件的例子：
+
+Windows Registry Editor Version 5.00
+
+path_of_keys]
+"Key"="Value"
+"Key"=Type:Value
+
+在 .reg 文件中，注释也是很有必要的，语法为：
+
+; 在英文半角的 ; 后面的部分就是注释
+
+
+例如
+
+Windows Registry Editor Version 5.00
+
+; 这是测试用的例子，并不会对系统造成任何影响
+HKEY_USERS\.DEFAULT\test]
+; 注册表存储数据时可以使用 5 中不同类型的方式
+"sz"="sz"
+"bin"=hex:00,01
+"dword"=dword:00000001
+"msz"=hex(7):74,00,65,00,73,00,74,00,00,00,00,00
+"esz"=hex(2):74,00,65,00,73,00,74,00,00,00
+
+
+实例：做个应用程序的访问控制列表，那 画图 为例
+
+Windows Registry Editor Version 5.00
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"DisallowRun"=dword:00000001
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun]
+"denyPaint"="mspaint.exe"
+
+将以上内容保存在一个 .reg 文件中，双击导入到注册表中
+然后通过运行调用 mspaint，也就是画图工具，很有趣的是，它被禁用了！
+恢复的方法很简单，将 DisallowRun 设置成 0 或者直接删除 mspaint.exe 的键值即可
+
+创建的键值在一个不存在的键下面也是可行的
+
+
+; 删除键
+-path_to_delete]
+
+; 删除键值
+path_of_keys]
+"Key"=-
+
+取消显示默认共享的实例
+
+Windows Registry Editor Version 5.00
+
+-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\DelegateFolders\{59031a47-3f72-44a7-89c5-5595fe6b30ee}]
+
+
+取消快捷方式小箭头的实例
+
+Windows Registry Editor Version 5.00
+
+HKEY_CLASSES_ROOT\lnkfile]
+"IsShortcut"=-
+HKEY_CLASSES_ROOT\piffile]
+"IsShortcut"=-
+HKEY_CLASSES_ROOT\InternetShortcut]
+"IsShortcut"=-
+HKEY_LOCAL_MACHINE\SOFTWARE\Classes\InternetShortcut]
+"IsShortcut"=-
+<p align='right'>
+微笑，叶子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+斑驳敬上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></pre>
+更过关于注册表操作的实例，请参考 <a href='../iBatch/register.htm'>iBatch v1.0 中注册表章节的内容</a>。</p><br>
+
+				<br><a href='index.html'>Home</a> | <a href='../iBatch/ibat.html' target='_blank'>iBatch v1.0</a> |
+				<a href='../iBatch/code/reg.txt' target='_blank'>原来的英文版</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

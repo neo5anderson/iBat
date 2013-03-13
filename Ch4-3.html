@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 经验</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>KISS: Keep It Simple, Stupid~</div>
+				<h2>修复模式</h2>
+<p>重启计算机，放入对应版本的正版安装光盘，通过R或者F2即可进入修复模式，虽然相对Linux的修复模式相差甚远，而且可操作性也很差，所以就简单的列举几个命令吧，出了问题根据命令看详细帮助会稍微有些底气。 </p><br>
+
+				<h3>应用</h3><hr width='80%' align='left'>
+<p><pre>
+bootcfg 针对 boot.ini 的修复
+	/default
+	/add
+	/copy
+	/rebuild
+	/scan
+	/list
+	/disableredirect
+	/redirect Port BIOSSetting
+例如：bootcfg /redirect com1 115200
+不过，Windows 7 有更加复杂的bcdedit命令
+
+
+fixboot [drive]
+
+诸多教程都会提到的命令
+fixmbr [device_name]
+
+hkdsk [/k]
+
+vol [drive:] [chkdsk [drive:]] [/r]
+
+老牌分区工具
+diskpart [/add|/delete] [device|drive|partition_name] [size]
+
+map: DeviceHardDisk0 D: Partition1
+
+format [drive:] [/fs:FS]
+
+map [arc]
+arc比如： multi(0)disk(0)rdisk(0)partition(1)
+</pre>
+如果你想将修复模式直接安装在计算机硬盘上，而不是每次都使用原版光盘来引导进入。
+<pre class='cmd'>
+REM 假设光驱的盘符是 X
+X:\i386\winnt32.exe /cmddos
+</pre>
+重启之后就会在启动选项中看到 修复模式 了
+</p><br>
+
+<br><a href='Ch4-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-0.html'>下一章</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

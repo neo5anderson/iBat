@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 起步</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>批处理是最典型的脚本语言，也是最简单的脚本语言；<br>
+					所以，它很容易学会。</div>
+				<h2>小结</h2>
+<p>通过前面几节的学习，我们掌握了命令提示符的相关操作、命令及其分类、环境变量 path 和 pathext 的意义。</p><br>
+
+				<h3>命令提示符</h3><hr width='80%' align='left'>
+<p>又名控制台，在 类 UNIX 操作系统 中习惯上叫做终端。
+它是批量处理和输出信息的主要平台，所以，必须要掌握它。
+<pre>
+	<em>打开命令提示符</em>
+
+鼠标方法一：<em>开始</em> -&gt; <em>所有程序</em> -&gt; <em>附件</em> -&gt; <em>命令提示符</em>
+鼠标方法二：<em>我的电脑</em>/<em>计算机</em> -&gt; <em>C:</em> -&gt; <em>Windows</em> -&gt; <em>System32</em> -&gt; <em>cmd.exe</em>
+
+键盘方法：<em>Win</em>+<em>r</em> -&gt; 输入 <em>cmd</em> 回车
+衍生方法：<em>开始</em> -&gt; <em>运行</em> -&gt; 输入 <em>cmd</em> 回车，或者点击<strong>确定</strong>
+
+
+	<em>创建批处理脚本文件</em>
+
+在桌面鼠标<em>右键</em> -&gt; <em>新建</em> -&gt; <em>文本文档</em> -&gt; 重命名为 <em>test.bat</em> -&gt;
+	还需要两次确认才标志着 <em>成功创建</em> 一个空的批处理脚本文件
+鼠标<em>右键</em>选择创建成功的文件 -&gt; <em>编辑</em> -&gt; 使用记事本编辑脚本
+
+或者：<em>Win</em>+<em>r</em> -&gt; <em>notepad test.bat</em> 回车 -&gt; <em>确定</em> 创建文件
+
+
+	<em>终止脚本</em>
+
+键盘： <em>Ctrl</em>+<em>c</em> 强制中断批处理，在询问之后输入 <em>y</em> 并以回车结束就可以退出了
+鼠标： 直接点击命令提示符右上角的<em>关闭按钮</em>，但是很多大问题的时候不太好用
+
+</pre>
+如果你需要退出命令提示符，这个命令自己研究研究吧
+<pre class='cmd'>&gt; exit /?</pre></p><br>
+
+				<h3>path 与 pathext</h3><hr width='80%' align='left'>
+<p>环境变量是很特殊的东东，path 和 pathext 是全局有效地。
+关于变量的内容斑驳会在后面的章节中慢慢介绍，我们先来回顾一下 path 以及 pathext 吧。</p>
+
+<p>path 指定了系统搜索外部命令的路径集合，默认 C:\Windows\System32\ 的查找优先级最高。
+如果没有 path 的支持，我们就只能使用内部命令以及当前目录下的命令了
+(如果命令中包含某个外部命令的绝对路径，也是可以调用的)。
+所以，如果没有必要，不要去删除之前已经存在的路径。</p>
+
+<p>pathext 标志着默认的可执行文件的后缀名。如果你能想的多一点，这个地方可以做很多事情的，(*^__^*) 嘻嘻…… </p><br>
+
+				<h3>系统配置</h3><hr width='80%' align='left'>
+<p>除了查看系统版本、硬件信息之外，Windows 也是可以自定义修改一部分数据的。
+整天对着 XP 的主题，佛祖看着也会感到乏味的，O(∩_∩)O哈哈~
+关于<strong>文件夹选项</strong>的操作，之前也有部分介绍，
+里面还有很多系统相关的配置，推荐读者去做一番研究，会有很多收获哦，
+不过它们的实质都是在对注册表进行修改。</p><br>
+
+				<h3>下一步</h3><hr width='80%' align='left'>
+<p>本章节已将获取命令帮助信息的方法讲述给大家，并提供了一份生成器脚本。
+基于常规的命令语法并不是很复杂，而且有很详尽的系统帮助，便不再赘述。
+记住，命令也罢，编程也罢，只看教程不动手操作肯定是学不会的。</p>
+<p>下一章节将会用标志性的 hello world 开头，详细的讲解四个内部命令，一个外部命令。
+自学的阶段便可以体会到 "耐心是一种美德" 的意义了。</p><br>
+
+<br><a href='Ch1-0.html#index'>返回</a> | <a href='Ch1-end.html#message'>置顶</a> | <a href='Ch2-0.html'>下一章</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

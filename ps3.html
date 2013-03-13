@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 附录</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<h2>&nbsp;~ ps: <em>几个命令的返回值</em></h2><br>
+<p>就是 errorlevel 的值哦，总结总结，很有用的。
+先写这几个，日后积攒多了，再努力补充，哈~
+<pre>
+FORMAT
+	0成功 3用户中断 4中断造成中止 5按提示退出未格式化
+XCOPY
+	0成功 1未找到文件源 2用户中断 4预置中断 5写入错误
+CHKDSK
+	0没有错误 255找到错误
+CHOICE
+	0用户中断 N选择了第N个选项 255错误条件
+DEFRAG
+	0碎片压缩成功 1内部错误 2没有剩余空间
+	3用户中断 4一般性错误 5读取错误 6写入错误
+	7分配空间错误 8内部错误 9没有空间压缩碎片
+FIND
+	0找到至少一个的匹配字符
+	1没有找到匹配 2查找失败
+REPLACE
+	0成功 1不兼容 2找不到源 3找不到源或目的
+	5不能存取要替换的文件 8内存不够 11语法错误
+SETVER
+	0成功 1无效的开关 2非法的文件名 3内存不够
+	4非法的格式 5未找到指定项 6未找到源程序
+	7非法的驱动器 8参数过多 9参数丢失
+	10读取时源文件发生错误 11源文件损坏
+	12源文件不支持 13内存不够 14写入错误
+
+ps: 如果输入了一个不存在的命令，cmd 会重置 errorlevel = 9009
+
+</pre>
+</p><br>
+
+				<br><a href='index.html'>Home</a> | <a href='../iBatch/ibat.html' target='_blank'>iBatch v1.0</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

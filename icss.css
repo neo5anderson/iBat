@@ -1,0 +1,178 @@
+/* NEO's Edition is Okay! */
+/* 斑驳敬上 */
+
+body {
+	color: Lightgrey;
+	background: #3D3D3D;
+	font-family: Ubuntu, "Comic Sans MS";
+	font-size: 20px;
+}
+
+#wrapper {
+	width: 910px; 
+	margin: 35px 0 0 50%; 
+	position: relative;
+	left: -455px;
+	padding: 0;
+	background: #111111;
+	-moz-border-radius: 39px;
+	-webkit-border-radius: 39px;
+	border-radius: 39px;
+}
+
+#header {
+	padding: 25px;
+	background: #111111;
+	text-align: center;
+	-moz-border-radius-topleft: 39px;
+	-webkit-border-top-left-radius: 39px;
+	-moz-border-radius-topright: 39px;
+	-webkit-border-top-right-radius: 39px;
+	border-top-left-radius: 39px;
+	border-top-right-radius: 39px;
+}
+#header h1 {
+	font-size: 72px;
+	display: inline;
+	color: White;
+	font-weight: bolder;
+}
+#header h2 {
+	display: inline;
+	margin-left: 22px;
+	font-size: 36px;
+	font-weight: normal;
+	color: Gold;
+}
+
+#menu { background: #222222; }
+#menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+#menu ul li { display: inline; }
+#menu ul li a {
+	color: White;
+	font-size: 36px;
+	padding: 0 25px;
+	line-height: 50px;
+}
+#menu ul li a:hover {
+	color: Lime;
+	background: Black;
+	text-decoration: none;
+	font-weight: bolder;
+}
+
+#content {
+	padding: 30px 60px 60px;
+	-moz-border-radius-bottomleft: 39px;
+	-webkit-border-bottom-left-radius: 39px;
+	-moz-border-radius-bottomright: 39px;
+	-webkit-border-bottom-right-radius: 39px;
+	border-bottom-left-radius: 39px;
+	border-bottom-right-radius: 39px;
+}
+#content h2 {
+	margin: 0 0 10px 0;
+	color: White;
+	font-size: 45px;
+}
+#content h3 {
+	margin: 0 0 9px 0;
+	font-size: 30px;
+}
+#content p { text-indent: 40px; }
+#content a { color: Goldenrod; }
+#content a:visited { color: Lime; }
+#content a:active, #content a:hover { color: Mediumvioletred; }
+
+#message {
+	margin-bottom: 40px;
+	padding: 22px;
+	border: 1px solid White;
+	background: #222222;
+	text-align: center;
+}
+
+#content ul { list-style: none; }
+#content ul#index { margin: 0; }
+#content ul#index a { color: LightGrey; }
+#content ul#index h2 a { color: White; }
+#content ul#index a:visited { color: Limegreen; }
+#content ul#index h2 a:visited { color: Limegreen; }
+#content ul#index a:active { color: Mediumvioletred; }
+#content ul#index a:hover { color: Mediumvioletred; }
+#content ul#index h2 a:hover { color: Mediumvioletred; }
+#content div.img {
+	margin-top: 10px;
+	padding: 22px 0;
+	text-align: center;
+}
+
+a.none, a:visited.none, a:hover.none { text-decoration: none; }
+
+em {
+	color: Lime;
+	font-style: normal;
+	font-weight: bold;
+	font-size: larger;
+	cursor: help;
+}
+strong {
+	color: Yellow;
+	text-decoration: underline;
+	font-style: normal;
+	cursor: wait;
+}
+
+pre {
+	color: Khaki;
+	background: Black;
+	padding: 22px;
+	font-family: "Courier New", Arial;
+	font-size: smaller;
+	width: 95%;
+	white-space: pre-wrap;
+}
+pre.cmd {
+	color: White;
+	font-weight: bolder;
+	font-size: 20px;
+}
+pre.src {
+	color: Darkgray;
+	font-size: 12px;
+}
+
+div#rside {
+	margin-right: 36px;
+	float: right;
+	width: 288px;
+}
+div#rside a#oops { color: Gainsboro; }
+div#rside img {
+	width: 180px;
+	margin-top: 23px;
+}
+div#rside p { 
+	font-size: smaller;
+	text-align: right;
+}
+
+.clearfix { clear: both;}
+
+#footer {
+	position: relative;
+	text-align: center;
+	font-size: 15px;
+	margin-bottom: 12px;
+	padding: 8px;
+}
+#footer a {
+	color: LightGrey;
+	font-weight: normal;
+}
+

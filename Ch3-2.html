@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 语法</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>学习一门语言的捷径就是不停地写<br>
+					或者，不停地看别人写的代码</div>
+				<h2>实例</h2>
+<p>没啥要说的，看实例总是最快的成长途径。
+如果你不想天天对着黑色的终端使劲的话，那就研究研究下面的脚本吧。
+</p><br>
+
+				<h3>获取分区信息</h3><hr width='80%' align='left'>
+<p>脚本写的好坏很大程度上在于命令的选取。即使算法牛气冲天，
+没有那些编译好的二进制命令帮你也很悲催。<br>
+方法一：
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)do(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%%i</font>:\nul (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">3</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%j</font>&nbsp;in (<font color="#ff80ff">'</font><font color="#40ffff">dir</font><font color="#ff80ff">&nbsp;</font><font color="#40ffff">%%i</font><font color="#ff80ff">:\'</font>) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;getsize</font><font color="#ffff00">=</font><font color="#40ffff">%%j</font>&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not </font><font color="#ffa0a0">&quot;</font><font color="#40ffff">!getsize!</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;0&quot;</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;&quot;驱动器 </font><font color="#40ffff">%%i</font><font color="#ffa0a0">: 正在使用中&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+)
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">pause</font>
+</pre>
+方法二：
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;skip=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">&nbsp;tokens=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">,2 delims=\&quot;</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'fsutil fsinfo drives <font color="#ffa500">^|</font>&nbsp;<font color="#40ffff">find</font>&nbsp;<font color="#ffa500">/v</font>&nbsp;<font color="#ffa0a0">&quot;&quot;</font>') do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;aa</font><font color="#ffff00">=</font><font color="#40ffff">%%a</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;aa</font><font color="#ffff00">=</font>!aa:~-2!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#40ffff">!aa!</font>) do fsutil fsinfo drivetype <font color="#40ffff">%%i</font>
+)
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">pause</font>
+</pre>
+方法三：
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">'wmic logicaldisk get DeviceID ^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;:&quot;</font><font color="#ff80ff">'</font>) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fsutil fsinfo drivetype <font color="#40ffff">%%i</font>&nbsp;)
+<font color="#40ffff">pause</font>
+</pre>
+结果：
+<pre>
+代码一运行结果：
+
+"驱动器 C: 正在使用中"
+"驱动器 D: 正在使用中"
+请按任意键继续. . .
+
+
+代码二运行结果：(Windows 7 的结果不同)
+
+C: - 固定驱动器
+D: - 固定驱动器
+E: - CD-ROM 驱动器
+请按任意键继续. . .
+
+
+代码三运行结果：
+
+C: - 固定驱动器
+D: - 固定驱动器
+E: - CD-ROM 驱动器
+请按任意键继续. . .
+</pre>
+
+<ul>
+<li>首先：三段代码都是为了在cmd中显示出本地计算机中有几个驱动器，后面的两个还能解释出具体的类型。</li>
+<li>其次：单纯从小括号注释中可以了解到，代码三的兼容性会好一些；</li>
+<li>从代码长度上来看的话，代码三也占了绝对的优势；</li>
+<li>不过，从执行的效率来看，代码三的速度稍稍有些逊色。</li>
+<li>最后：前两个代码都需要设置延迟扩展来记录上一次的变量值，书写起来会稍稍带有难度，但是比较符合人类的逻辑思维。
+而代码三直接使用了wmic命令集，简化很多操作。</li></ul>
+
+<pre>
+
+三个代码段都无疑例外的含有 @echo off 以及最后的 pause，
+	@echo off：隐藏输入的命令，显示执行结果。
+	如果没有这一行的话，你可以瞧瞧执行结果，华丽丽的；
+	pause：暂停的意思，而且会在屏幕上输出 “请按任意键继续. . .” 的字样。
+
+
+<strong>代码一</strong> 使用的是最基础的 for 结构，一一列举了可能存在的驱动器盘符，数据量并不是很大
+	但是如果需要你对某一C类网段整体ping测试呢？
+	你还会采用这种列举的方式写出 255 种IP么？
+
+	之后用的是 if-exist，嵌套在循环体里面，而 nul 其实是一个设备名，表示空；
+	如果没有某个分区，也就没有这个设备啦，nul 也就不存在。
+
+	但是为了进一步地确定有 nul 设备的盘符是否可用，
+	还需要针对具体的驱动器盘符进行 dir 测试。
+	这样就嵌套了第二个 for 循环
+
+	通过分析 dir 的输出结果
+	最后一行的第三个位置显示的就是该驱动器的可用字节，如果是 0 ，
+	那就肯定不能用喽，用这个作为标志在第二个嵌套的 if 中判断是再好不过了。
+
+
+<strong>代码二</strong> 稍稍复杂的利用了 for /f，并且涵盖三个附加选项，
+	然后通过 fsutil 获取信息，至于这个命令本身的信息量很大，
+	但是对普通用户而言，意义不大，也就不再过多的赘述。
+
+	值得一提的是在字符串中的转义字符，因为 | 在引号中会失去管道的意义，
+	需要转义才能真正的将上一个命令的输出传递给下一个命令作为输入，
+	而批处理的转义字符比较有意思，是主键盘区数字 6 上面的 ^，
+	然后紧跟着需要转义的字符就OK了。
+	
+	find 灰常灰常有用
+	findstr(功能会更强大一些)，不过斑驳推荐从 find 起步
+	熟悉shell的朋友们应该会想到grep，当然，grep 也有 win 版的，
+	需要的话从这里可以直接跳转到下载页: 
+
+		<a href='http://gnuwin32.sourceforge.net/packages/grep.htm' target='_blank'>http://gnuwin32.sourceforge.net/packages/grep.htm</a>
+
+	后续的工作就是安装以及设置 path 目录，自己摸索吧。
+
+</pre>
+</p><br>
+
+				<h3>wmic 帮助信息的制作</h3><hr width='80%' align='left'>
+<p>通过上面的例子，显然代码三是很牛力的，wmic 命令应该很有用吧，
+不过，系统的帮助有些太复杂，每次都用手打太麻烦了，所以就写了这份脚本，帮助大家快速查询。
+并且作为比较有意义的 for 实例来讲解
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;wmic <font color="#40ffff">md</font>&nbsp;wmic 
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (<font color="#ff80ff">'wmic /? ^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;- &quot;</font><font color="#ff80ff">'</font>) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;p1</font><font color="#ffff00">=</font><font color="#40ffff">%%a</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;skip=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">&nbsp;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (
+		<font color="#ff80ff">'wmic </font><font color="#40ffff">!p1!</font><font color="#ff80ff">&nbsp;/? ^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">!p1!</font><font color="#ffa0a0">&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;/v </font><font color="#ffa0a0">&quot;DELETE&quot;</font><font color="#ff80ff">'</font>) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;p2</font><font color="#ffff00">=</font><font color="#40ffff">%%i</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;WMIC </font><font color="#40ffff">!p1!</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">!p2!</font><font color="#ffa0a0">&nbsp;Helper is writing&nbsp;&nbsp;. . .</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wmic <font color="#40ffff">!p1!</font>&nbsp;<font color="#40ffff">!p2!</font>&nbsp;<font color="#ffa500">/?</font>&nbsp;&gt; .\wmic\<font color="#40ffff">!p1!</font>.<font color="#40ffff">!p2!</font>.list <font color="#ffa0a0">2</font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+)
+<font color="#40ffff">assoc</font>&nbsp;.list<font color="#ffff00">=</font>txtfile
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">pause</font>
+</pre>
+
+<p>设置了延迟扩展之后可以保存循环时获取的命令 参数1 和 参数2 分别存储在 p1 和 p2 中。
+一开始的 if-exist 是为了判断是否需要创建 wmic 文件夹，方便存储生成的帮助文档。
+第一层 for 将 wmic 的角色别名循环存储在 %%a 中，第二层的 for 将刚刚得到的角色名存进 p1 变量。</p>
+
+<p>然后针对每个角色进行系统帮助查询，过滤掉没用的信息，获得角色所需的参数。
+将已经过去的参数名打印在屏幕上，然后重定向到文件中，直到全部完成。
+最后通过 assoc 命令将 .list 文件类型关联成文本文件，双击就可以使用记事本打开他们。</p><br>
+
+				<h3>延迟，分度值是分钟级别的</h3><hr width='80%' align='left'>
+<p>我承认我很蛋疼，精确到毫秒甚至更加精确的延迟命令早就有了。
+但是需要手动编译或者另外下载 Kit，直到现在的 Windows 7 SP1 也没有集成。
+有一个叫做 vbs 的脚本语言，可精确延迟，但是其命令体系要比批处理大多了。
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">title</font>&nbsp;延迟
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;如果想要自己做成一个延迟的命令来使用的话</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;首先需要把以下两行删除，然后将注释部分的代码放到有效位置</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;&nbsp;&nbsp;&nbsp; set mm=</font><font color="#40ffff">%1</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;</font><font color="#40ffff">%1</font><font color="#80a0ff">&nbsp;表示的就是第一参数的数值，将其赋值给mm变量</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;然后便可以跟以下的内容贴合使用了</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;mm</font><font color="#ffff00">=</font>延迟几分钟： 
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;以下一行可删除</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;当前时间 </font><font color="#40ffff">%time%</font>
+
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;nows</font><font color="#ffff00">=</font><font color="#40ffff">%time:~6,1%</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;nowt</font><font color="#ffff00">=</font><font color="#40ffff">%time:~3,2%</font>+<font color="#40ffff">%mm%</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%nowt%</font>&nbsp;gtr <font color="#ffa0a0">60</font>&nbsp;(<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;nowt</font><font color="#ffff00">-=</font><font color="#ffa0a0">60</font>)
+
+<font color="#ffff00">:again</font>
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">5</font>&nbsp;&gt; nul
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;以下一行可删除</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;--瞬时比对时间-- </font><font color="#40ffff">%time%</font>
+
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;tt</font><font color="#ffff00">=</font><font color="#40ffff">%time:~3,4%</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%tt%</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%nowt%%time:~5,1%%nows%</font><font color="#ffa0a0">&quot;</font>&nbsp;(<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;doit</font>) <font color="#ffff00">else</font>&nbsp;(<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;again</font>)
+<font color="#ffff00">:doit</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%time%</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;以下一行可删除，然后追加延迟过后的命令</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Do it</font>
+
+<font color="#40ffff">pause</font>
+</pre>
+
+<p>综合来说，ping 5次的时间是比较稳定的，
+调用命令本身也需要花费时间(虽然是毫秒级别的)，而且这个脚本本来就存在很大的误差，
+所以仅以此作为研究语言，而不作使用。</p><br>
+
+<br><a href='Ch3-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch3-end.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

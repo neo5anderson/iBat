@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 基础</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>不积跬步，无以至千里。</div>
+				<h2>Hello World!</h2>
+<p>这是写代码的伙计们的习惯。虽然批处理是脚本语言，用 "问候世界" 作为开篇也是可以容忍的嘛。
+就连官方的 Python 教程也是如此哦~
+<pre class='src'><font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Hello World!</font></pre>
+看到了？就是这么简单。<br>
+就算是没有任何编程经验的人，也会猜到，echo 就是输出字符的命令。</p><br>
+
+				<h3>其他语言举例</h3><hr width='80%' align='left'>
+<p>没别的意思，只是想让大家可以横向的比较一下，特定语言的样子。
+虽然可能这辈子都不会接触它们，但是它们都在逐渐地改变这个世界。</p>
+
+<em>&nbsp;Python</em> 俗称胶水语言，跟批处理一样也都是脚本语言。
+现在很多 Linux 发行版的系统管理都有它的身影，甚至还有游戏(不是很流行)。
+由于它的跨平台性能、结构清晰明快，书写简洁流畅，被推崇为最适合初学者学习的语言。
+<pre class='src'>
+<font color="#ffff00">1 </font><font color="#80a0ff">#!/path-of-python</font>
+<font color="#ffff00">2 </font><font color="#ffff00">print</font>&nbsp;<span style="background-color: #000000"><font color="#cccccc">&quot;</font></span><font color="#ffa0a0">Hello World!</font><span style="background-color: #000000"><font color="#cccccc">&quot;</font></span>
+</pre>
+<pre class='cmd'>&gt; python hello.py</pre><br>
+
+<em>&nbsp;nasm</em> 这是比较年轻的汇编语言，相对微软的 masm 来说，最大的特点就是简单。
+而且它也是跨平台的，更适合新手去学习。斑驳在学习写 bootloader 的时候碰到的。
+<pre class='src'>
+<font color="#ffff00">&nbsp;1 </font><font color="#40ffff">section</font>&nbsp;<font color="#ffff00">.text</font>
+<font color="#ffff00">&nbsp;2 </font><font color="#40ffff">global</font>&nbsp;<font color="#40ffff">main</font>
+<font color="#ffff00">&nbsp;3 </font><font color="#40ffff">org</font>	<font color="#ffa0a0">100</font><font color="#40ffff">h</font>
+<font color="#ffff00">&nbsp;4 </font>
+<font color="#ffff00">&nbsp;5 </font><font color="#40ffff">main</font>:
+<font color="#ffff00">&nbsp;6 </font><font color="#40ffff">mov</font>	<font color="#40ffff">ax</font>,<font color="#40ffff">cs</font>
+<font color="#ffff00">&nbsp;7 </font><font color="#40ffff">mov</font>	<font color="#40ffff">ds</font>,<font color="#40ffff">ax</font>
+<font color="#ffff00">&nbsp;8 </font><font color="#40ffff">mov</font>	<font color="#40ffff">ah</font>,<font color="#ffa0a0">9</font>
+<font color="#ffff00">&nbsp;9 </font><font color="#40ffff">mov</font>	<font color="#40ffff">dx</font>,<font color="#40ffff">msg</font>
+<font color="#ffff00">10 </font><font color="#40ffff">int</font>	<font color="#ffa0a0">21</font><font color="#40ffff">h</font>
+<font color="#ffff00">11 </font><font color="#40ffff">mov</font>	<font color="#40ffff">ah</font>,<font color="#ffa0a0">4</font><font color="#40ffff">ch</font>
+<font color="#ffff00">12 </font><font color="#40ffff">int</font>	<font color="#ffa0a0">21</font><font color="#40ffff">h</font>
+<font color="#ffff00">13 </font>
+<font color="#ffff00">14 </font><font color="#40ffff">msg</font>:
+<font color="#ffff00">15 </font><font color="#40ffff">db</font>	'<font color="#40ffff">Hello</font>&nbsp;<font color="#40ffff">World</font>!',0<font color="#40ffff">dh</font>,0<font color="#40ffff">ah</font>,'$'
+<font color="#ffff00">16 </font>
+</pre>
+<pre class='cmd'>&gt; nasm hello.asm -o hello.com && hello.com</pre><br>
+
+<em>&nbsp;Java</em> 你不得不承认，它对这个信息时代贡献灰常之大。
+J2EE 标识一个企业级开发架构(虽然 Sun 倒下了)。
+当然，JavaScript 跟 Java 也没啥不正当关系，不用去想当然。
+<pre class='src'>
+<font color="#ffff00">1 </font><font color="#60ff60">public</font>&nbsp;<font color="#60ff60">class</font>&nbsp;hello {
+<font color="#ffff00">2 </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#60ff60">public</font>&nbsp;<font color="#60ff60">static</font>&nbsp;<font color="#60ff60">void</font>&nbsp;main(String[]&nbsp;args)&nbsp;{
+<font color="#ffff00">3 </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<font color="#ffa0a0">&quot;Hello World!&quot;</font>);
+<font color="#ffff00">4 </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<font color="#ffff00">5 </font>}
+</pre>
+<pre class='cmd'>&gt; javac hello.java && java hello</pre><br>
+
+<em>&nbsp;C</em> 纵观计算机历史，肯·汤姆森发明的 C 绝对是壮举。
+没有 C 语言，苹果公司不会成为世界最富的企业，因为 Mac 源自于 C 改编的 UNIX 系统；
+没有 C 语言，各大高校计算机系的老师有一多半都要下岗，因为 C 比其他语言更适合教课；
+没有 C 语言，我们也无法成为新一代的网民，因为网络上最重要的 TCP/IP 协议也是基于 C 的 . . .
+<pre class='src'>
+<font color="#ffff00">1 </font><font color="#80a0ff">// Hello world in hello.c</font>
+<font color="#ffff00">2 </font><font color="#ff80ff">#include </font><font color="#ffa0a0">&lt;stdlib.h&gt;</font>
+<font color="#ffff00">3 </font><font color="#ff80ff">#include </font><font color="#ffa0a0">&lt;stdio.h&gt;</font>
+<font color="#ffff00">4 </font><font color="#60ff60">int</font>&nbsp;main(<font color="#60ff60">void</font>)
+<font color="#ffff00">5 </font>{
+<font color="#ffff00">6 </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(<font color="#ffa0a0">&quot;Hello World!</font><font color="#ffa500">\n</font><font color="#ffa0a0">&quot;</font>);
+<font color="#ffff00">7 </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">return</font>&nbsp;<font color="#ffa0a0">0</font>;
+<font color="#ffff00">8 </font>}
+</pre>
+<pre class='cmd'>&gt; gcc -o hello hello.c && ./hello</pre>
+<br><a href='Ch2-0.html#content'>返回</a> | <a href='Ch2-1.html#message'>置顶</a> | <a href='Ch2-2.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

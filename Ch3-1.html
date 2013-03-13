@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 语法</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>学习一门语言的捷径就是不停地写<br>
+					或者，不停地看别人写的代码</div>
+				<h2>控制语句</h2>
+<p>流程控制是很重要的，下面的章节将带你快速的掌握流程控制，
+并将编程程序可能会碰到注意事项一一解释给大家。</p><br>
+
+				<h3>基本语句</h3><hr width='80%' align='left'>
+<p>命令行这个名字是有来历的，命令一行一行的，就是基本语句了。
+如果你想在命令提示符中一次性输入多个命令，就需要将命令复合(上一章节中也有提过)，
+使用 <strong>小括号</strong> 将多条命令包裹起来。
+
+<pre class='cmd'>
+&gt; <em>( cd %systemroot%\system23</em>
+More? <em>dir *.exe /b &gt; c:\list-exe.txt</em>
+More? <em>cd \</em>
+More? <em>notepad list-exe.txt )</em>
+</pre>
+如果还需要一点逻辑判断的话
+<pre class='cmd'>
+&gt; dir log.txt 2&gt; nul &gt; nul <em>&&</em> type log.txt | more
+&gt; ping 127.1 -n 3 &gt; nul <em>&&</em> color 0d
+&gt; ping 234.1 -n 1 &gt; nul <em>&&</em> color 0a
+
+&gt; dir folder 2&gt; nul <em>||</em> md folder
+&gt; del c:\pagefile.sys /f <em>||</em> echo 木有权限
+
+&gt; @echo off <em>&</em> cls <em>&</em> systeminfo 2&gt; nul | find "启动时间"
+</pre>
+以上命令就留给读者自己研究吧，斑驳只说明连接符的意思：
+<pre>
+<em>&&</em>	逻辑与连接	前面的命令执行后正常退出才会继续执行后面的命令
+<em>||</em>	逻辑或连接	前面的命令没有正常退出便会执行后续的命令
+<em>&</em>	单纯的连接符	前面命令执行完成之后就会执行后面的命令
+</pre></p><br>
+
+				<h3>条件分支</h3><hr width='80%' align='left'>
+<p>if 是一个很容易掌握的命令，通过仔细阅读系统提供的帮助信息就可以搞明白它的语法。
+这里就着重说明以下几点：
+<pre>
+errorlevel 是上一个命令的返回值，比如 C 语言最后的 return 0; 批处理则是 exit /b 0
+string 比较的时候，需要注意定界符，如果含有空格的字符串比较，一定要使用定界符，比如 ""
+exist 只能判断是否存在某个文件或者文件夹，但是不能告诉你那个是文件还是文件夹
+	其实，它还可以用于判断设备的存在性，比如：NUL、COM1-4、LPT1-4、A-Z: 等等
+
+另外，if 的右括号一定要与 else 的左括号在同一行，这样子才能连接两个复合语句。
+
+if /i ... 匹配时候忽略大小写，在很多类似字符操作的命令中也兼容这个选项
+compare-op 表示的是操作数，比如 equ neq lss leq gtr geq，一般用于比较数字
+if cmdextversion 用的很少，这个版本号不如 ver 的返回值更有价值
+if defined 倒是比较常用，可以用来检查是否定义了某个具体的变量
+</pre>
+了解更多设备名：
+<pre class='cmd'>&gt; mem /d | find /i "device" &gt; dev.txt &amp;&amp; notepad dev.txt</pre>
+
+而系统帮助在后面提到关于 cmdcmdline 之类的可以当成废话，基本也用不上。
+还是直接上例子吧，看文字总是不够直观。
+
+<pre class='cmd'>
+&gt; masm hello.asm
+&gt; if errorlevel 1 ( edit hello.asm ) else ( link hello.obj )
+</pre>
+这是微软宏汇编的一个小例子，先用 masm 编译一下 asm 源文件。
+然后根据返回值来进一步操作，如果没有编译成功，编辑源文件；如果编译成功了，就链接成可执行文件。
+如果稍稍修改修改一下编辑工具，会更加实用，相信不是每个人都喜欢 edit 编辑文字的。
+<pre><em>pause &gt; nul &amp; notepad hello.asm </em></pre>
+这样子不仅能看到编译过程中所发出的错误提示信息，而且能够由用户来控制什么时候使用记事本进行编辑。
+</p><br>
+
+				<h3>逻辑循环</h3><hr width='80%' align='left'>
+<p>其实，for也不是很难。只是有些概念性质的东西需要解释一下：
+<pre>
+循环变量必须是单字母，而且区分大写，所以，最多只有52个循环变量
+在脚本文件中，需要使用 %%X 表示一个循环变量，而命令行则是 %X
+
+基本：
+in 后面的是循环变量取值范围，默认空格是分隔符
+do 后面跟循环体，推荐使用括号标注，消除歧义
+
+可选功能：
+/d 可遍历文件夹，支持通配符
+/r 递归的遍历文件和目录，默认从当前目录开始
+/l 手动确定循环变量增幅，与 C语言中的 for 很相似
+/f 关于文件或命令输出内容的循环操作，稍微有些复杂，但是很实用
+	关于 eol、skip、tokens、delimes、usebackq 的使用将在后面的例子中讲解
+
+
+如果 循环变量 得到了某个具体的文件名，还可以进一步的扩充，拿 %I 举例：
+
+	%~I	删除原来 %I 中最外层的双引号
+	%~$PATH:I
+		查找 path 目录，让 %I 得到第一个完全匹配结果否则返回 空
+
+	%~<em>X</em>I	<em>f</em>(ull) 合法路径名   <em>d</em>(rive) 驱动器号   <em>p</em>(ath) 路径
+		<em>n</em>(ame) 文件名		(e)<em>x</em>(tension) 文件扩展名
+		<em>s</em>(hort) 短路径名  	<em>a</em>(ttribute) 文件属性
+		<em>t</em>(ime) 文件日期/时间	(si)<em>z</em>(e) 大小
+
+	常用组合如 dp nx fs dp$PATH:I ftzaI(类似于DIR命令)
+
+</pre>
+各种例子
+<pre class='cmd'>
+&gt; for %i in (2 4 6 8 10 14) do (ping 192.168.1.%i)
+&gt; for %a in (高数 复变 马克思 形式与政策) do (@echo 我不喜欢 %a)
+</pre>
+<pre class='cmd'>
+&gt; for /d %i in (*) do (echo 当前目录中有文件夹: %i)
+&gt; for /r c:\Windows\system32 %i in (exe*.exe) do (
+More? @echo exe开头的exe命令: %~atnxi)
+</pre>
+<pre class='cmd'>
+&gt; for /l %i in (1,1,9) do (color 0%i &amp; ping 127.1 &gt; nul)
+</pre>
+<pre class='cmd'>
+&gt; for /f %i in ('tasklist ^| find /i ".exe"') do (
+More? @echo.%~$PATH:i | find /i ".exe" )
+&gt; for /f "tokens=*" %i in ('tasklist ^| find /i "exe"') do (
+More? @echo.%i )
+</pre>
+<pre class='cmd'>
+&gt; for /f "tokens=2 delims=:" %i in ('ipconfig') do (
+More? @echo.%i)
+&gt; for /f "tokens=1-3 delims=," %%a in ("1,2,3,4") do (
+More? @echo a=%a b=%b c=%c)
+</pre>
+<pre class='cmd'>
+&gt; for /f "usebackq" %i in ("%AppData%\Desktop.ini") do(
+More? @echo %i &amp;&amp; notepad "%i")
+&gt; for /f "usebackq tokens=1* delims==" %i in (`set`) do (
+More? @echo.%i = %j)
+</pre>
+如果你不太喜欢动手写代码的话，那就多去看看代码吧，
+虽然一开始看起来怪怪的，毕竟完事开头难呀。</p><br>
+
+				<h3 id='dec2bin'>goto loop</h3><hr width='80%' align='left'>
+<p>源自于古老的汇编控制结构，通过标签制作循环，看起来更像是编译类的语言，相对比 for 更容易理解。
+不过在此之前读者需要自学一下 goto call exit 这三个命令。然后看看这个例子，十进制转二进制：
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;dec</font><font color="#ffff00">=</font>请输入一个十进制数字：
+
+<font color="#ffff00">:loop</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;got</font><font color="#ffff00">=</font><font color="#40ffff">%dec%</font><font color="#ffa500">%%</font>2
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;dec</font><font color="#ffff00">=</font><font color="#40ffff">%dec%</font>%/<font color="#ffa0a0">2</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;bin</font><font color="#ffff00">=</font><font color="#40ffff">%got%%bin%</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%dec%</font>&nbsp;geq <font color="#ffa0a0">1</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loop</font>
+
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;二进制：</font><font color="#40ffff">%bin%</font>
+</pre>
+分享一个比较好玩的脚本，数字其实是很有趣的
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+<font color="#40ffff">title</font>&nbsp;Flying colorful words
+<font color="#40ffff">mode</font>&nbsp;con:<font color="#40ffff">&nbsp;cols</font><font color="#ffff00">=</font><font color="#ffa0a0">30</font><font color="#40ffff">&nbsp;lines</font><font color="#ffff00">=</font><font color="#ffa0a0">3</font>&nbsp;
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa0a0">&quot;sub=I'm Neo.&quot;</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;c</font><font color="#ffff00">=</font><font color="#ffa0a0">789</font>abcde
+
+<font color="#ffff00">:loop</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/l</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (<font color="#ffa0a0">6</font>,1,28) do ( 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/a</font><font color="#40ffff">&nbsp;d</font><font color="#ffff00">=</font><font color="#40ffff">%random%</font><font color="#ffa500">%%</font>13+1 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">call</font><font color="#ffff00">&nbsp;:subloop</font>&nbsp;<font color="#40ffff">%%a</font>
+) 
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loop</font>
+
+<font color="#ffff00">:subloop</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#ffff00">=</font>!sub:~-<font color="#40ffff">%1</font>!&lt; nul 
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#ffff00">=</font>&nbsp;&lt; nul
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>!c:~<font color="#40ffff">%d%</font>,1! 
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">1</font>&nbsp;&gt;nul
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+</pre>
+下面是 Windows 版本的 gvim 自动创建的调用脚本，有很好的指导意义哦~
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">rem</font><font color="#80a0ff">&nbsp;-- Run Vim --</font>
+
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIM_EXE_DIR</font><font color="#ffff00">=</font>C:\Program Files\Vim\vim73
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIM%</font><font color="#ffa0a0">\vim73\gvim.exe&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIM_EXE_DIR</font><font color="#ffff00">=</font><font color="#40ffff">%VIM%</font>\vim73
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIMRUNTIME%</font><font color="#ffa0a0">\gvim.exe&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIM_EXE_DIR</font><font color="#ffff00">=</font><font color="#40ffff">%VIMRUNTIME%</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIM_EXE_DIR%</font><font color="#ffa0a0">\gvim.exe&quot;</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;havevim</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;&quot;</font><font color="#40ffff">%VIM_EXE_DIR%</font><font color="#ffa0a0">\gvim.exe&quot; not found</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+
+<font color="#ffff00">:havevim</font>
+<font color="#40ffff">rem</font><font color="#80a0ff">&nbsp;collect the arguments in VIMARGS for Win95</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIMARGS</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIMNOFORK</font><font color="#ffff00">=</font>
+<font color="#ffff00">:loopstart</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>. <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopend</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;NOT </font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.-f <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;noforkarg</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIMNOFORK</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>
+<font color="#ffff00">:noforkarg</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIMARGS</font><font color="#ffff00">=</font><font color="#40ffff">%VIMARGS%</font>&nbsp;<font color="#40ffff">%1</font>
+<font color="#40ffff">shift</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;loopstart</font>
+<font color="#ffff00">:loopend</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%OS%</font><font color="#ffff00">==</font>.Windows_NT <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;ntaction</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%VIMNOFORK%</font><font color="#ffff00">==</font>.1 <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;nofork</font>
+<font color="#40ffff">start</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIM_EXE_DIR%</font><font color="#ffa0a0">\gvim.exe&quot;</font>&nbsp;&nbsp;<font color="#40ffff">%VIMARGS%</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+
+<font color="#ffff00">:nofork</font>
+<font color="#40ffff">start</font>&nbsp;<font color="#ffa500">/w</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIM_EXE_DIR%</font><font color="#ffa0a0">\gvim.exe&quot;</font>&nbsp;&nbsp;<font color="#40ffff">%VIMARGS%</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+
+<font color="#ffff00">:ntaction</font>
+<font color="#40ffff">rem</font><font color="#80a0ff">&nbsp;for WinNT we can use </font><font color="#40ffff">%*</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%VIMNOFORK%</font><font color="#ffff00">==</font>.1 <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;noforknt</font>
+<font color="#40ffff">start</font>&nbsp;<font color="#ffa0a0">&quot;dummy&quot;</font>&nbsp;<font color="#ffa500">/b</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIM_EXE_DIR%</font><font color="#ffa0a0">\gvim.exe&quot;</font>&nbsp;&nbsp;<font color="#40ffff">%*</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+
+<font color="#ffff00">:noforknt</font>
+<font color="#40ffff">start</font>&nbsp;<font color="#ffa0a0">&quot;dummy&quot;</font>&nbsp;<font color="#ffa500">/b</font>&nbsp;<font color="#ffa500">/wait</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%VIM_EXE_DIR%</font><font color="#ffa0a0">\gvim.exe&quot;</font>&nbsp;&nbsp;<font color="#40ffff">%*</font>
+
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIMARGS</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;VIMNOFORK</font><font color="#ffff00">=</font>
+</pre></p><br>
+
+<br><a href='Ch3-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch3-2.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

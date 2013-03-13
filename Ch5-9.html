@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>综合优化</h2>
+<p>删除垃圾文件、关闭硬件写入服务、清除可能存在的问题文件、添加优化注册信息。
+这是斑驳第一次写小应用的作品，语句还是比较幼稚的。好在还可以运行，就没有再进一步的修改。</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">title</font>&nbsp;my bat files <font color="#ffff00">for</font>&nbsp;Neo
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading ...</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Don't be afraid of the taskbar's missing </font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp; Now let's kill some rubbish on your system drive</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp; and this program is helpful for ejecting USB device</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">pause</font>
+<font color="#40ffff">cls</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. 》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 《《《《《《《《《《《《《《《《《《《《《《《《《《《《</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">attrib</font>&nbsp;-h -s -r <font color="#40ffff">%%a</font>:\Autorun.inf&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\Autorun.inf&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\Autorun.inf.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\AUTO.EXE&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\sxs.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\pagefile.pif&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\_desktop.ini&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\command.com&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\logo_1.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\SWS32.DLL&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\KILL.EXE&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\rose.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\*sy.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\setup.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\oso.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\sal.xls.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\AdobeR.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\ravmone.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\servet.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\info.exe&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do <font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/a</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\tel.xls.EXE&gt;nul <font color="#ffa0a0">2</font>&gt;nul
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%systemdrive%</font>\*.tmp
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%systemdrive%</font>\*._mp
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%systemdrive%</font>\*.gid
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%systemdrive%</font>\*.chk
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%systemdrive%</font>\*.old
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%windir%</font>\*.bak
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%windir%</font>\prefetch\*.*
+<font color="#40ffff">rd</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%windir%</font>\temp<font color="#ffff00">&nbsp;&amp; </font><font color="#40ffff">md</font>&nbsp;<font color="#40ffff">%windir%</font>\temp
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%userprofile%</font>\cookies\*.*
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Local Settings\Temporary Internet Files\*.*&quot;</font>
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Local Settings\Temp\*.*&quot;</font>
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;D:\Personal\Temp\*.*&quot;</font>
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;D:\Backup\TEMP\*.*&quot;</font>
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\recent\*.*&quot;</font>
+Ping <font color="#ffa0a0">127</font>.0.0.1 -n <font color="#ffa0a0">3</font>&nbsp;&gt;nul
+sc config&nbsp;&nbsp; ShellHWDetection<font color="#40ffff">&nbsp;start</font><font color="#ffff00">=</font>&nbsp;disabled
+<font color="#40ffff">%systemdrive%</font>
+<font color="#40ffff">cd</font>&nbsp;<font color="#40ffff">%windir%</font>
+<font color="#40ffff">md</font>&nbsp;neoTMPE
+<font color="#40ffff">copy</font>&nbsp;*.log neoTMPE\
+<font color="#40ffff">rd</font>&nbsp;neoTMPE <font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>
+<font color="#40ffff">cls</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp; Keep your CD-ROM being empty, I think it's a good choice</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. ps:&nbsp;&nbsp;loving Delly is my forever choice, and enjoy all my life</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">pause</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">rd</font>&nbsp;<font color="#ffa500">/s</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%%a</font>:\Autorun.inf
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">cd</font>&nbsp;\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">md</font>&nbsp;Autorun.inf
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">cd</font>&nbsp;Autorun.inf
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">md</font>&nbsp;<font color="#ffa0a0">&quot;loving Delly..\&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">cd</font>..
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">attrib</font>&nbsp;Autorun.inf +h +s +r
+)
+<font color="#40ffff">cls</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Do you want to fast your computer when it running ?</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;add this register config to your computer, click &quot;Yes&quot; if you want to.</font>
+<font color="#ffff00">call</font>&nbsp;neo.reg
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Done!</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Smile, Delly</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Neo's Studio</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; neosimple@qq.com</font>
+<font color="#40ffff">pause</font>
+
+<font color="#80a0ff">:: loving Delly</font>
+
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>脚本中需要修改注册表的内容，因为是敏感信息，于是不再通过 reg 命令添加，而是单独列出来了。
+同时，在运行脚本的时候，还会询问用户是否需要添加到注册表，没有强制操作。
+注册表文件保存为 neo.reg 即可通过脚本自动调用了
+<pre>
+Windows Registry Editor Version 5.00
+
+HKEY_CURRENT_USER\Control Panel\Desktop]
+"AutoEndTasks"=dword:00000001
+"WaitToKillAppTimeout"="0"
+"HungAppTimeout"="0"
+"MenuShowDelay"="0"
+
+HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
+"MinAnimate"="1"
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
+"WaitToKillServiceTimeout"="0"
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Update]
+"UpdateMode"=dword:00000000
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem]
+"ConfigFileAllocSize"=dword:000001f4
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
+"DisablePagingExecutive"=dword:00000001
+"LargeSystemCache"=dword:00000001
+"IOPageLockLimit"=dword:00c00000
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters]
+"EnablePrefetcher"=dword:00000005
+</pre>
+不过，为了解决USB设备无法安全删除等一系列僵死问题。
+之前在脚本中一上来就将 explorer.exe 进程干掉了，最后在调用 explorer 回归桌面。
+但是因为各种原因和几个敏感的网友质疑，最终去掉了这个功能。
+下面附上一份刷新 explorer 的脚本，是最近的作品哦~
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;@cmd /c taskkill /f /im explorer.exe </font><font color="#ffa500">^&amp;^&amp;</font><font color="#ffa0a0">&nbsp;explorer </font>&gt; re55.bat
+<font color="#40ffff">start</font>&nbsp;<font color="#ffa500">/min</font>&nbsp;re55.bat
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;recall</font><font color="#ffff00">=</font>Done[yes]? 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;recall explorer
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;delims=,&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (
+	<font color="#ff80ff">'tasklist /fi </font><font color="#ffa0a0">&quot;imagename eq cmd.exe&quot;</font><font color="#ff80ff">&nbsp;/fo csv /v ^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;re55&quot;</font><font color="#ff80ff">'</font>
+) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;childcmd</font><font color="#ffff00">=</font><font color="#ffa500">%%</font>~i
+taskkill <font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/pid</font>&nbsp;<font color="#40ffff">%childcmd%</font>&nbsp;&gt; nul
+<font color="#40ffff">del</font>&nbsp;re55.bat <font color="#ffa0a0">2</font>&gt; nul
+</pre>
+
+<p>它可以自动识别新调用出来的 cmd.exe 并将其干掉。
+为了完成这一使命，斑驳花了一个下午的时间才憋出这九行来。多多测试多多反馈哦~</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

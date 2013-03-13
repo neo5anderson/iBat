@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 语法</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>学习一门语言的捷径就是不停地写<br>
+					或者，不停地看别人写的代码</div>
+				<h2>小结</h2>
+<p>到这儿为止，批处理的基础篇就结束了。
+语法就是这些，关于注册表的知识不再赘述，也并不推荐读者对注册表做过多的研究。
+if for goto 就是组成变化多端的批处理的基石，通过一段时间的练习，相信你便能写出漂亮的 bat。</p><br>
+
+				<h3>局域网内聊天</h3><hr width='80%' align='left'>
+<p>日后工作了，大多数使用 Windows 的公司内网都是用 AD 部署的。
+这种环境下，可在不使用外界或者第三方软件的的前提下聊天。
+其实就一个命令的事儿，有控制语句而已：</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">title</font>&nbsp;简易服务器聊天脚本
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\say*.tmp&quot;</font>&nbsp;<font color="#40ffff">del</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\say*.tmp&quot;</font>
+<font color="#ffff00">:startsay</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. 请在提示之后输入您要广播的内容，Ctrl+Space 可以输入中文哦</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;say</font><font color="#ffff00">=</font>广播：
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;say (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;抱歉，您并没有输入任何内容</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;startsay</font>
+)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;saystr</font><font color="#ffff00">=</font>say%<font color="#40ffff">time</font>:~-5%.tmp
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%say%</font><font color="#ffa0a0">&nbsp;</font>&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\</font><font color="#40ffff">%saystr%</font><font color="#ffa0a0">&quot;</font>
+msg<font color="#ffff00">&nbsp;* </font>&lt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\</font><font color="#40ffff">%saystr%</font><font color="#ffa0a0">&quot;</font>
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">1</font>&nbsp;&gt; nul
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;是否还要发送内容呢？输入 n 退出</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;isover</font><font color="#ffff00">=</font>直接输入回车继续
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;isover ( <font color="#40ffff">cls</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;startsay</font>&nbsp;)
+<font color="#40ffff">del</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\say*.tmp&quot;</font>
+</pre>
+
+<p>分享这个脚本也是为了让大家复习一下前面所学的知识，
+脚本写出来就是为了方便人们使用计算机的，如果它并没有起到方便的作用，那就说明还有待进一步修改。</p><br>
+
+<br><a href='Ch3-0.html#index'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch4-0.html'>下一章</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

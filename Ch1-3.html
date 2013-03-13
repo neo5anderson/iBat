@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 起步</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>批处理是最典型的脚本语言，也是最简单的脚本语言；<br>
+					所以，它很容易学会。</div>
+				<h2>脚本</h2>
+<p>脚本是解释型，不需要编译和链接操作就能在其对应平台上安分的工作。
+而诸如 Java 或者 C/C++ 这类语言，写完文本之后，还需要编译器预处理、编译、链接之后才能工作。
+这再一次证明了，批处理很简单。</p><br>
+
+				<h3>之前的问题</h3><hr width='80%' align='left'>
+<p>Windows 是一个很流行的操作系统，中国的市场占有率甚至从来都没有低于80%
+(这一点从博客的访问统计上也可以体现出来)。
+可是很多时候它并不是一个省心的伙伴，病毒、木马、蓝屏、碎片、冗余信息...
+再说下去就跑题了，但是此之前，有必要解决一个问题：</p>
+<p><em>学会创建 bat 文件，而不是 txt 文件</em></p>
+
+<p>不论是什么语言，什么脚本，代码都是纯文本。
+但是 Windows 不能自动识别文本文件里面到底是什么语言，只能通过后缀名区分。
+不巧的是，很多 Ghost 安装的系统会做少量的设置，
+比如：<strong>隐藏已知类型的扩展名</strong>。
+很多人都是通过 “记事本” 这个工具创建文本文件的，它默认存储文件的后缀名是 .txt 。
+这样子便造成了很多诸如 <strong>test.bat.txt</strong> 的文件名。<br>
+然后气势汹汹质问斑驳，“丫的，啥脚本呀，根本就不会动！”</p>
+
+那么，如何解决这种问题呢？<ul>
+	<li>图片左上角的两个文件是被 <i>隐藏已知类型的扩展名</i> 之后的这样子。</li>
+	<li>图片右下角的两个文件是取消 <i>隐藏已知类型的扩展名</i> 之后的这样子。</li></ul>
+
+<div class='img'><img src='figure/p1-7.png' alt='hide-ext' /></div>
+具体解决方法如下：
+<pre>
+打开任意一个<em>文件夹</em> -&gt; 菜单栏<em>工具</em> -&gt; <em>文件夹选项</em>  -&gt; <em>查看</em>选项卡 -&gt;
+	<em>隐藏已知文件类型的扩展名</em>复选框
+</pre>
+<div class='img'><img src='figure/p1-8.png' alt='menubar' /></div>
+<div class='img'><img src='figure/p1-9.png' alt='unhide-ext' /></div>
+
+<p>值得一提的是，Windows 7 默认不会显示菜单栏的，需要通过键盘上的 <strong>Alt</strong> 呼叫出来~<br>
+聪明的读者应该也会发现，格式不同，文件图标也会跟着变化。我们的批处理一般都是中间带有齿轮的图标。
+这貌似是一劳永逸的方法，但是这并不能快速地解决问题：</p>
+
+<pre>
+在桌面鼠标<em>右键</em> -&gt; <em>新建</em> -&gt; <em>文本文档</em> -&gt; 重命名为 <em>test.bat</em> -&gt;
+	还需要两次确认才标志着 <em>成功创建</em> 一个空的批处理脚本文件
+
+鼠标<em>右键</em>选择创建成功的文件 -&gt; <em>编辑</em> -&gt; 使用记事本编辑脚本
+</pre>
+
+<p>也许你鼠标玩的很流畅，不到几秒钟就可以解决以上所有问题，并进入编辑状态。
+不过，斑驳推荐你看看单纯使用键盘是什么样子的<u>效率</u>：</p>
+
+<pre>
+<em>Win</em>+<em>r</em> -&gt; <em>notepad test.bat</em> 回车 -&gt; <em>确定</em> 创建文件
+</pre>
+
+<p>恩，完了。就这么简单。</p>
+
+<p>记得编辑完成之后要保存哦~
+键盘方法会默认将 test.bat 存储在用户宿主目录中，如果你需要查看确定一下它是否真的存在</p>
+
+<pre>
+<em>Win</em>+<em>r</em> -&gt; <em>explorer .</em> 回车
+</pre>
+注意！注意！最后的那个<strong>小数点</strong>灰常灰常重要哦，一定要敲进去<br>
+不然打开的就是 <em>我的文档</em> 了。</p><br>
+
+				<h3>调试</h3><hr width='80%' align='left'>
+<p>当你完成脚本的编写之后，那就是调试的时候了。
+鼠标双击运行脚本，如果没有很好的流程控制，或者存在致命性的语法错误。
+命令提示符会一闪而过，啥也看不到。</p>
+
+<p>推荐在命令行模式下调试脚本。如果脚本所在路径并不在 path 里面的话，
+还需要输入脚本的绝对路径才能执行，显然，调试桌面上 test.bat 就有些吃力了，
+因为你需要先知道桌面的绝对路径，而且 Windows XP 以及 Server 2003 的桌面是根据区域语言而设定的，
+也就是说，你可能还需要在路径上输入中文，切换中英文输入法什么的一系列事情会让你的操作变得很繁琐。
+虽然，Vista 和 Windows 7 不论语言设置，默认都叫做 Desktop 了，
+毕竟使用 Windows XP 中文版的用户还是灰常多的。</p>
+
+<p>而通过刚刚所说的键盘方法制作出来的脚本，它存储在宿主目录上，
+也就是进入命令行提示符默认显示的路径。直接键入 <strong>test.bat</strong> 即可运行。
+( ps: 限 Windows XP 及 Windows Server 2003，Windows 2000 好像还是 C:\WINNT\system32\&gt;；
+而 Windows 7 用户通过 <strong>开始 -&gt; 附件 -&gt; 命令行提示符</strong> 打开的终端是
+C:\Windows\System32\&gt;，而通过 <strong>Win+r -&gt; cmd -&gt; 回车</strong>
+打开的才是当前用户的宿主目录。不过从博客访问量来看，现在还真没几个保守派了 )
+</p>
+<br><a href='Ch1-0.html#index'>返回</a> | <a href='Ch1-3.html#message'>置顶</a> | <a href='Ch1-end.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>clear</h2>
+<p>这是一个清屏的命令，通过它可以将终端上文字清空。
+而且会修改提示符，根据参数不同，提示符也会有所不同。推荐尝试一下 clear linux 这个命令哦</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Clear the screen and change the prompt</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;clear [option]</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. if use clear command without option, </font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. that's default prompt for my Delly</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Options:</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prompt for iNeo, green words</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;linux&nbsp;&nbsp; a bash shell like prompt, happy</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;Delly <font color="#ffff00">call</font>&nbsp;delly.bat <font color="#ffff00">else</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;CLEAR</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>. <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;CLEAR</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.i (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">prompt</font>&nbsp;<font color="#ffa500">$L</font>i<font color="#ffa500">$+</font>Neo<font color="#ffa500">$G$S</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Delly</font><font color="#ffff00">=</font>i
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;CLEAR</font>&nbsp;)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.linux (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">prompt</font>&nbsp;[<font color="#40ffff">%username%</font>@<font color="#40ffff">%computername%</font>:<font color="#ffa500">$+</font>~]#<font color="#ffa500">$S</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Delly</font><font color="#ffff00">=</font>L 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;CLEAR</font>&nbsp;)
+<font color="#80a0ff">::add new prompt as you like</font>
+
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Invalid param. type clear /? for help</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;If you want to add new item, try in C:\Windows\System32\clear.bat</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+
+<font color="#ffff00">:CLEAR</font>
+<font color="#40ffff">cls</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Designed by Neo</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>在脚本的开头注明帮助信息，当自己回头看代码的时候可以快速的了解其功能。
+如果确定参数中不含空格等特殊字符，在 if 判断中不必用定界符将两边都包裹起来，这一点之前也有提过。
+标志位的设置是比较有意思的事情，但是要小心的使用你所创建的那些变量。
+还有，针对错误的选项，最好写出对应错误的原因以及帮助信息的调用方法。</p>
+补充 delly.bat 的关键代码，了解更多，请查阅 prompt /? 的系统帮助：
+<pre class='cmd'> prompt -$Q%date:~5,2%月%date:~8,2%日 周%date:~-1%$Q-$S</pre>
+通过 clear linux 命令之后的截图：
+<div class='img'><img src='figure/p5-1.png' alt='clear' /></div></p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-2.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 起步</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>批处理是最典型的脚本语言，也是最简单的脚本语言；<br>
+					所以，它很容易学会。</div>
+				<h2>命令</h2>
+<p>通过前一小结的引例，相信大家已经对命令有了感性的认识。
+<strong>ver</strong> 命令可算是最为简单的一种命令，没有参数、没有选项，只是单纯地输出结果。
+之后我们会接触一些带有选项和参数的命令，不过可以放心，系统的提示信息帮助我们了解这些命令。</p><br>
+
+				<h3>查看帮助</h3><hr width=80% align="left">
+<p>这是成功的必经之路，自学出来的知识真的不太容易忘记。
+而且，Windows 也提供了很多入门级的文档，用来保证一部分用户掌握个中缘由。</p>
+<p>帮助命令 <strong>help</strong>：列举当前系统提供的常用命令以及帮助信息。
+除了知道命令名称和功能描述并不能满足需求，我们还可以输入：
+<pre class='cmd'>&gt; help <em>CommandName</em></pre>
+其中 <strong>CommandName</strong> 是对应的命令名，比如，我们想进一步了解 time 命令的功能：
+<pre class='cmd'>&gt; help time</pre>
+就会显示出更多关于 time 的帮助信息了。<br>&nbsp;<br>
+有时一些命令并没有添加到 help 列表里面，还可以尝试以下几种方法：
+<pre>
+1. Windows 官方的命令多数都自带了帮助信息，通过 <em>CommandName /?</em> 查看
+2. UNIX跨平台编译的工具命令，使用 <em>CommandName -h</em> 或 <em>CommandName --help</em>
+3. 斑驳提供的中文脚本，采用 <em>命令名称 ？</em> 查看，注意：这里是中文的问号哦~
+</pre>
+在举一个例子吧， ren 命令：
+<pre class='cmd'>
+&gt; ren /?
+重命名文件。
+
+RENAME [drive:][path]filename1 filename2.
+REN [drive:][path]filename1 filename2.
+
+请注意，您不能为目标文件指定新的驱动器或路径。
+
+</pre>
+<em>说明几点</em>：<ul>
+<li>Windows 命令并不区分大小写，默认帮助信息的命令都是大写的；</li>
+<li>大多数的命令都有汉化，不过也有少量的命令是英文原稿；</li>
+<li>命令语法有很多 [xxx] 标注的内容，中括号里面的内容表示可有可无的意思；</li>
+<li>filename? 表示要操作的第 ? 个文件名；</li>
+</ul></p><br>
+
+我们可以稍稍总结一下帮助信息的格式，为了以后手动书写帮助信息积累经验。
+<pre class='cmd'>
+&gt; 命令名称 /?
+命令描述信息
+
+命令语法
+
+使用注意事项、实例、开发人员、错误报告等信息
+</pre>
+</p><br>
+
+				<h3>命令的分类</h3><hr width=80% align="left">
+<em>内部命令</em> 封装在 command.com 文件中，负责最基本最核心的一些操作，枚举一下的话：
+<pre>
+assoc call cd chdir cls color copy date del erase dir echo endlocal
+exit for ftype goto if md mkdir move path pause popd prompt pushd
+rd rmdir rem ren rename set setlocal shift start time title type
+ver verify vol</pre>
+看起来挺多的，但是想一想，每个命令还真挺需要的。<br>&nbsp;<br>
+
+<em>外部命令</em>，顾名思义，没有封装在 command.com 文件里面而是独立出来的命令。
+不过说到这里，就不得不提一下在 Windows 中 <strong>可执行文件</strong> 的具体意义了。
+
+<p>可执行文件，就是可以用来执行某些操作的。但是其中还有很多细节需要掌握，比如：文件扩展名、调用方式等等。
+查看默认的可执行文件种类：
+<pre class='cmd'>&gt; set pathext</pre>
+一般都会显示以下的结果：
+<pre>PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</pre></p>
+
+<p>没错，上面所列举的都是可执行文件的类型，而不值是单纯的 exe 文件。
+这里跟 path 一样，在不知道你在做什么的情况下还是不要随意去做修改它。</p>
+
+<p>另外，现在学习的批处理的扩展名是 bat 或者 cmd
+(后者是 NT 内核命令环境的批处理文件，平常我们用 bat 就是了，两者也可笼统的认为没啥区别)
+鼠标双击批处理文件或者在命令行里面输入其文件名即可调用。
+而 com、vbs、vbe 文章并无涉及，便不再赘述。</p>
+
+<p>外部命令一般是存放在 path 所包含的目录中以供使用的可执行文件。
+相信我，系统默认安装的外部命令就有一大箩筐了。
+为此，斑驳已将 system32 目录下 exe 文件整理到附录中，<a href='ps1.html' target='_blank'>点击查看</a>。
+还有一点需要说明：执行命令的时候是有<strong>优先级</strong>的。<br>
+<pre>
+从路径上来说：path 指定的众多目录中越是靠前的优先级越高。
+
+	例如有 path 值为： C:\Windows\system32;C:\Windows
+	且存在 C:\Windows\system32\neo.exe 和 C:\Windows\neo.exe 两个文件
+	那么在命令提示符中使用 <strong>neo</strong> 调用的是 C:\Windows\system32\neo.exe
+	因为其所在的目录在 path 指定的路径更靠前，所以会更早的被找到。
+
+
+从文件类型上来说：内部命令 &gt; com文件 &gt; exe文件 &gt; bat文件 &gt; 其他可执行文件
+
+	通过上面的例子，我们可以举出下面的例子
+	path=C:\Windows\system32;C:\Windows
+	有这样两个文件 C:\Windows\delly.com 和 C:\Windows\delly.bat
+	然后在命令提示符中输入 <strong>delly</strong> 显然执行的会是 delly.com
+</pre></p>
+
+<p>另外补充一点，诸如 exe bat cmd com 这类可执行文件，在没有歧义的情况下，可省略后缀名来调用。
+所以我们在运行框中敲 cmd 就可以打开命令提示符，当然，使用 cmd.exe 也不会出错。
+</p><br>
+
+				<h3>手动制作命令帮助</h3><hr width=80% align="left">
+<p>分享一个脚本，它是斑驳学会循环语句之后编写的。
+每次都是手动进入命令提示符，输入对应的命令才能查看帮助信息，这是一件比较枯燥的事儿。
+提前生成一份帮助文档列表可以减轻很多操作。
+当然，这并不是梦想，而且实现起来也比较 Easy。</p>
+
+<em>脚本的操作流程</em>：<ul>
+<li>判断是否存在一个叫做 "DOS命令帮助" 的文件夹，不存在的话就创建一个；</li>
+<li>通过 help 建立所需帮助命令的列表；</li>
+<li>使用重定向将各个命令的帮助文本放入刚刚创建的 "DOS命令帮助" 文件夹里；</li>
+<li>将该帮助信息的命令名称作为那个纯文本文件的文件名；</li>
+<li>把命令帮助文档制作完成的信息输出到屏幕上。为了防止在命令名称采样的时候出现不相关的数据，
+此环节还要对内容进行筛选，保证显示的信息和生成的文件一致。</li></ul>
+
+<p>看着有点扯蛋，感觉功能还不错，而且代码加起来也没超过 20 行，可能对初学者而言有点晦涩。
+写这个并不是要大家现在就弄明白代码中每一句的意思，只是证明一下：</p>
+
+<p>批处理很简洁，也很快捷，可以做很多有用的事情。</p>
+
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">title</font>&nbsp;帮助文档的制作
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">help</font>&nbsp;&gt; <font color="#40ffff">cmd</font>.list
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;DOS命令帮助 <font color="#40ffff">md</font>&nbsp;DOS命令帮助
+<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;skip=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#40ffff">cmd</font>.list) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;cmd0</font><font color="#ffff00">=</font><font color="#40ffff">%%i</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">!cmd0!</font><font color="#ffa0a0">&nbsp;</font>| <font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;。&quot;</font>&nbsp;&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">!cmd0!</font>&nbsp;<font color="#ffa500">/?</font>&nbsp;&gt; DOS命令帮助\<font color="#40ffff">!cmd0!</font>_帮助.txt <font color="#ffa0a0">2</font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;命令：</font><font color="#40ffff">!cmd0!</font><font color="#ffa0a0">&nbsp;的帮助文档制作完毕</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+)
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">del</font>&nbsp;<font color="#40ffff">cmd</font>.list
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;完成!</font>
+ping <font color="#ffa0a0">127</font>.1 &gt; nul
+
+<font color="#80a0ff">:: loving Delly</font>
+
+</pre>
+<br><a href='Ch1-0.html#index'>返回</a> | <a href='Ch1-2.html#message'>置顶</a> | <a href='Ch1-3.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

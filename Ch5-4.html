@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>kill</h2>
+<p>别害怕，kill 的是 process(进程) ，不是 player 。
+如果你仔细看过代码，就会明白它就是 tasklist 和 taskkill 的综合版。</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;kill process, easier and shorter than taskkill</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;kill [FullImageName [/t]]</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;only a switch in this command</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;/t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meaning kill this process all kids</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;if without any args, all process will be listed</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;and ask you use PID or ImageName to kill</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;of course, the switch '/t' works too.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>. (<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;PID</font>)
+taskkill <font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/im</font>&nbsp;<font color="#40ffff">%1</font>&nbsp;<font color="#40ffff">%2</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Invalid param. or &quot;%~1&quot; doesn't exist#~</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;type kill /? for help</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+<font color="#ffff00">:PID</font>
+tasklist <font color="#ffa500">/svc</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Check this list up</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. Which one to kill ?</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. If you want to input PID, press ENTER to continue</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font>Input ImageName here:&nbsp;&nbsp;
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;neo taskkill <font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/im</font>&nbsp;<font color="#40ffff">%neo%</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%errorlevel%</font><font color="#ffff00">==</font><font color="#ffa0a0">128</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Process Image:</font><font color="#40ffff">%neo%</font><font color="#ffa0a0">&nbsp;doesn't exist#~</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font><font color="#40ffff">Type</font>&nbsp;his PID here:&nbsp;&nbsp;
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;neo taskkill <font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/pid</font>&nbsp;<font color="#40ffff">%neo%</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%errorlevel%</font><font color="#ffff00">==</font><font color="#ffa0a0">128</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Process ID:</font><font color="#40ffff">%neo%</font><font color="#ffa0a0">&nbsp;doesn't exist#</font>
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>关于进程的基础概念斑驳就不再多废话了，有质疑的google去(PID、ImageName)。
+从进程上干掉应用程序比起用鼠标点击右上角的叉号是一件灰常有水平的事情，
+所以推荐大家看看 taskkill 命令。特别提醒，这两个命令都是可以远程到别人的机器哦~</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-5.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

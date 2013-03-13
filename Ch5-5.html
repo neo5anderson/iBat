@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>backup</h2>
+<p>指定自动备份的功能，需要两个另外的脚本支持：getrar(获取 rar)、isDesktop(关于用户桌面相关操作)。
+在补充中有 getrar 的源代码，isDesktop作为实例在下一节中讲述。</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font><font color="#40ffff">%2</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;neo <font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font>neo
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;backup something important</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;backup x [FileName]</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;backup upgrade FileNamex</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Options:</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;note [Passwd]&nbsp;&nbsp; backup note direcotry on desktop</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;you can add password on it</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;Options with FileName:</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;x [FileName]&nbsp;&nbsp;&nbsp;&nbsp;If without FileName, take &quot;neo&quot; as default</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To backup these batch files into a package</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;upgrade FileName</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upgrade my batch files</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+<font color="#ffff00">call</font>&nbsp;getrar.bat &gt; nul <font color="#ffa0a0">2</font>&gt; nul || (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;rar <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;rar is missing. . . &amp;&amp; goto eof </font>)
+<font color="#ffff00">call</font>&nbsp;isDesktop.bat &gt; nul <font color="#ffa0a0">2</font>&gt; nul || (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;Desktop <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Desktop isn't defined &amp;&amp; goto eof </font>)
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.x (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">dir</font>&nbsp;<font color="#ffa500">/o</font><font color="#ffff00">:d</font>&nbsp;<font color="#40ffff">%systemroot%</font>\system32\*.bat<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;.bat&quot;</font>&nbsp;&gt; bat.list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isDesktop mv bat.list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">%rar%</font>&nbsp;a <font color="#40ffff">%neo%</font>.neo <font color="#40ffff">%systemroot%</font>\system32\*.bat &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%errorlevel%</font>&nbsp;<font color="#ffff00">LSS</font>&nbsp;<font color="#ffa0a0">2</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isDesktop mv <font color="#40ffff">%neo%</font>.neo 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isDesktop run bat.list 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Compress finished!</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.upgrade (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;<font color="#40ffff">%neo%</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Error: Need .neo backup file</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ping <font color="#ffa0a0">127</font>.1 &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#40ffff">%systemroot%</font>\..
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">copy</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%cd%</font><font color="#ffa0a0">\</font><font color="#40ffff">%neo%</font><font color="#ffa0a0">&quot;</font>&nbsp;. &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font>&nbsp;<font color="#ffff00">=</font>Password: &lt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">%rar%</font>&nbsp;x -o+ <font color="#ffa0a0">&quot;</font><font color="#40ffff">%neo%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">3</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Sorry: wrong password!</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">del</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/q</font>&nbsp;<font color="#40ffff">%neo%</font>&nbsp;&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">popd</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. No news is good news. NEO's Edition is Okay~</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.note (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;come note &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%2</font><font color="#ffff00">==</font>. ( <font color="#40ffff">%rar%</font>&nbsp;a <font color="#ffa0a0">&quot;recent note&quot;</font><font color="#ffff00">&nbsp;* </font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) <font color="#ffff00">else</font>&nbsp;( <font color="#40ffff">%rar%</font>&nbsp;a -hp<font color="#40ffff">%neo%</font>&nbsp;<font color="#ffa0a0">&quot;recent note&quot;</font>.neo<font color="#ffff00">&nbsp;* </font>&gt; nul )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%errorlevel%</font>&nbsp;<font color="#ffff00">LSS</font>&nbsp;<font color="#ffa0a0">2</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Compress finished!</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;e:\backup <font color="#40ffff">md</font>&nbsp;e:\backup 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">move</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;<font color="#ffa0a0">&quot;recent note.neo&quot;</font>&nbsp;e:\backup\ &gt; nul 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isDesktop cp <font color="#ffa0a0">&quot;e:\backup\recent note.neo&quot;</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">popd</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+) <font color="#ffff00">else</font>&nbsp;( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Invalid param. type backup /? for help </font>)
+
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;neo</font><font color="#ffff00">=</font>
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>backup upgrade 的时候需要斑驳提供的 neo.neo 文件才行。
+note 环节可以在 come 脚本中追加位置，然后手动更改存储的路径即可。
+而且默认打包之后是有密码的，可以通过第二个参数传进来，或者默认使用 neo 作为密码。<br>
+以下是 getrar 的代码
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Get rar.exe's path, and store it into </font><font color="#ffa500">%%</font><font color="#ffa0a0">rar</font><font color="#ffa500">%%</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;This command without any option, just run it</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;if you want to get the path, type:</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;set rar</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%windir%</font>\system32\rar.exe (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;rar</font><font color="#ffff00">=</font><font color="#40ffff">%windir%</font>\system32
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;reg</font>&nbsp;)
+reg query hklm\software\winrar <font color="#ffa0a0">2</font>&gt; nul<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;WinRAR&quot;</font>&nbsp;&gt; findrar
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;( <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;makerar</font>&nbsp;) <font color="#ffff00">else</font>&nbsp;( <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;getrar</font>&nbsp;)
+<font color="#ffff00">:makerar</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;rar.neo <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Software: WinRAR is needed! &amp;&amp; goto eof</font>
+<font color="#40ffff">move</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;rar.neo <font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">&quot;</font>&nbsp;&gt; nul
+<font color="#40ffff">ren</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\rar.neo&quot;</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\rar.exe&quot;</font>
+<font color="#ffff00">call</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%tmp%</font><font color="#ffa0a0">\rar.exe&quot;</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;rar</font><font color="#ffff00">=</font>rar
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;end</font>
+<font color="#ffff00">:getrar</font>
+<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (findrar) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;rar</font><font color="#ffff00">=</font><font color="#40ffff">%%j</font>
+<font color="#40ffff">del</font>&nbsp;findrar
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa0a0">&quot;rar=%rar:~0,-11%&quot;</font>
+<font color="#ffff00">:reg</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%rar%</font><font color="#ffa0a0">\rarreg.key&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. RAR registration data </font>&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%rar%</font><font color="#ffa0a0">\rarreg.key&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. loving Delly </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%rar%</font><font color="#ffa0a0">\rarreg.key&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay </font>&gt;&gt; <font color="#ffa0a0">&quot;</font><font color="#40ffff">%rar%</font><font color="#ffa0a0">\rarreg.key&quot;</font>
+)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;rar</font><font color="#ffff00">=</font><font color="#40ffff">%rar%</font>\rar.exe
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;rar</font><font color="#ffff00">=</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%rar%</font><font color="#ffa0a0">&quot;</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%windir%</font>\system32\rar.exe <font color="#40ffff">set</font><font color="#40ffff">&nbsp;rar</font><font color="#ffff00">=</font>rar
+<font color="#ffff00">:end</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;use </font><font color="#ffa500">%%</font><font color="#ffa0a0">rar</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;to run it</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;There is an example for you:</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;; create a rar compress file</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;</font><font color="#ffa500">^&lt;</font><font color="#ffa0a0">DOS.CMD</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">%%</font><font color="#ffa0a0">rar</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;a [-r] [-hpPASSWD] [-d] FileName [Files</font><font color="#ffa500">^|</font><font color="#ffa0a0">@F.lst]</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;; uncompress rar file</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;</font><font color="#ffa500">^&lt;</font><font color="#ffa0a0">DOS.CMD</font><font color="#ffa500">^&gt;</font><font color="#ffa0a0">&nbsp;</font><font color="#ffa500">%%</font><font color="#ffa0a0">rar</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;e</font><font color="#ffa500">^|</font><font color="#ffa0a0">x FileName [Path]</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;get more details about rar, type: </font><font color="#ffa500">%%</font><font color="#ffa0a0">rar</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;/? </font><font color="#ffa500">^|</font><font color="#ffa0a0">&nbsp;more</font>
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+</pre>
+很显然，需要 winrar 软件的支持才能打包和加密。
+因为产权的问题，rarreg.key 的 sn 斑驳已经抹去了，如有需要，mail联系(附赠一套自解压版本的程序)。
+</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-6.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 起步</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>批处理是最典型的脚本语言，也是最简单的脚本语言；<br>
+					所以，它很容易学会。</div>
+				<h2>版本以及配置</h2>
+<p>批处理也是有命令和语法的，那些基本的命令都源于 DOS。
+注意：微软购买 DOS 之后便一直捆绑在 Windows 上，所以版本一直跟着 Windows 在变化。
+我们甚至可以根据 Windows 的版本来粗略地衡量 DOS 版本。</p>
+
+<p>为啥一直强调版本呢？这不仅仅是内部命令兼容性的问题，也是外部命令扩充以及输出格式的问题。
+如果你只是刚刚接触到批处理，很大程度上来说，可以忽略版本不同所带来的问题。
+但后续发布自己的脚本或者切换工作平台的时候，你可能就会碰到<strong>兼容性</strong>所带来的烦恼了。</p><br>
+
+				<h3>查看版本</h3><hr width='80%' align='left'>
+<p>如果你知道如何打开<strong>命令提示符</strong>，也就说明你赢在起跑线上了。
+当然，别着急否定那些不怎么了解情况的童鞋们，因为他们拥有更大的上升空间。<br>
+<pre>
+鼠标方法一： <em>开始</em> -&gt; <em>所有程序</em> -&gt; <em>附件</em> -&gt; <em>命令提示符</em>
+鼠标方法二： <em>我的电脑</em>/<em>计算机</em> -&gt; <em>C:</em> -&gt; <em>Windows</em> -&gt; <em>System32</em> -&gt; <em>cmd.exe</em>
+</pre>
+我承认，第二种方法比较邪恶啦，O(∩_∩)O哈哈~<br>
+推荐使用 "键盘方法" ，但是在此之前，我们需要认识键盘上的一个特殊按钮：<strong>Win</strong><br>
+(Linux 桌面用户习惯上叫做 <strong>Super</strong>)&nbsp;&nbsp;如下图红色圆圈所示：
+<div class='img'><img src='figure/p1-1.png' alt='win-key' /></div>
+<pre>
+键盘方法：  <em>Win</em>+<em>r</em> -&gt; 输入 <em>cmd</em> 回车
+衍生方法：  <em>开始</em> -&gt; <em>运行</em> -&gt; 输入 <em>cmd</em> 回车，或者点击<strong>确定</strong>
+</pre>
+<div class='img'><img src='figure/p1-2.png' alt='run-cmd' /></div>
+不过，"衍生方法" 是建立在开始菜单里面存在 <strong>运行</strong> 按钮的前提下。
+虽然通过简单配置便可以设定是否显现这个按钮，斑驳认为说跑题了，本节便不再赘述。</p><br>
+
+<p>我们接下来关心的是如果查看 Windows 版本，相信有很多熟悉 Windows 的用户会提出以下的方法：
+<pre>
+<em>我的电脑</em>/<em>计算机</em> -&gt; 右键<em>属性</em> -&gt; <em>常规选项卡</em>
+</pre>
+<div class='img'><img src='figure/p1-3.png' alt='sys-ver' /></div>
+斑驳更推荐使用一下刚刚学会的 <strong>命令提示符</strong>
+<div class='img'><img src='figure/p1-4.png' alt='cmd-ver' /></div></p>
+
+<p>很显然，命令提示符会在第一行说明系统的版本号，也可以通过一个命令来显示：</p>
+<p><strong>ver</strong> --- <i>用于回显当前系统的版本号</i>。</p>
+<p>把它作为 DOS 的启蒙命令再合适不过了，很简单，也没有任何参数。
+上面的截图是在 Windows XP SP3 获取的，而 Server 2003(5.2.3790) 或其他 (如 Windows 7: 6.1.7600) 便会有所区别。</p>
+
+<p>另外还有一点需要说明，从 Windows Vista 开始，用户的宿主目录变更为：</p>
+<p><strong>C:\Users\UserName</strong></p>
+如果拿俺的名字举例，系统默认的命令提示符为：
+<pre class='cmd'>C:\Users\Neo&gt;</pre>
+以后斑驳在说明某个命令的时候，只保留这种系统默认提示符的最后一个大于号。
+比如刚刚提到的 <i>显示版本的命令 ver</i>
+<pre class='cmd'>&gt; ver</pre>
+<p>聪明的读者测试命令时，千万不要将前面的大于号也当成命令输入进去哦，因为在 shell (姑且把现在的批处理认为是一种shell脚本编程，虽然与类UNIX操作系统的shell相去甚远)里面的大于号有着非同凡响的意义。
+</p><br>
+
+			<h3>配置</h3><hr width='80%' align='left'>
+<p>默认情况下，我们是不需要配置什么东西的，因为整个 Windows 并没有提供给我们太多可定制的选项。
+不过改改字体大小、颜色什么的，而对于经常接触终端(命令行别称)的人来说，还是很有必要的。
+命令提示符的标题栏上单击鼠标右键，选择属性。如图：
+<div class='img'><img src='figure/p1-5.png' alt='cmd-p' /></div>
+弹出的窗口可针对：选项、字体、布局以及颜色选项卡进一步修改配置。
+值得注意的是，修改完成之后需要点击最下方的 <strong>确定</strong> 按钮，然后会提示：
+<pre>
+属性仅对当前窗口生效(<u>A</u>)
+保存属性，供以后具有相同标题的窗口使用(<u>S</u>)
+</pre>
+如果选择后者，以后每次打开 cmd.exe 都会是本次修改后的样子啦。</p><br>
+
+<p>当然，我们所说的配置可不仅限于外观上修改哦，还有内在的东西--- <em>path</em> 路径。</p>
+<strong>从长相上来说</strong>，由一个或多个文件夹路径组成的，中间使用英文的分号分隔：
+<pre class='cmd'>C:\Windows\system32;C:\Windows</pre>
+<strong>从性格上来说</strong>，它是挺抠门的。因为只有它所包含的路径才能放到系统检索路径中并使用。<br>
+<p>可能有点懵吧，举一例子，cmd.exe 默认是存放在 C:\Windows\system32 里，
+如果 path 没有包含 C:\Windows\system32 的话，计算机是无法通过 "调用" 的方式找到 cmd 的；
+虽然 "运行 -&gt; cmd" 的方法依然可行，但是在某种意义上来说，失去 System32 的 path 是比较糗的，
+可能是被攻击了，也可能是被无意中清空了(这种情况多见于刚开始学习 Java 的童鞋身上)。 
+毕竟关于 path 的漏洞也不少，了解一下原理也是有必要的。</p><br>
+
+<p>另外要说明一点，Windows 的字符界面(也就是命令提示符、控制台以及终端，
+他们可以广义的认为是同一个意思)有一个很明显的<strong>漏洞</strong>。</p>
+
+<p>就是<strong>当前目录的可执行文件拥有被执行的权利</strong>，当然，有时候还要考虑一下用户的执行权限。
+这为啥会是漏洞呢？熟悉 shell 的哥们们可能联想到使用 <b>./setup.sh</b> 的意义了~
+写过程序的童鞋应该都碰到过这样一个名词：<strong>死循环</strong>。
+恩，没错，以上提到的这个漏洞使得 Windows 很容易导致死循环。
+<pre class='src' id='deadloop'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;制作一个常见的死循环</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;title 回环呀 回环 </font>&gt; bad.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;color </font><font color="#ffa0a0">0</font><font color="#ffa0a0">b </font>&gt;&gt; bad.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;set times=</font><font color="#ffa500">%%</font><font color="#ffa0a0">times</font><font color="#ffa500">%%</font><font color="#ffa0a0">.</font>&gt;&gt; bad.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;echo. </font>&gt;&gt; bad.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;echo 开始: </font><font color="#ffa500">%%</font><font color="#ffa0a0">times</font><font color="#ffa500">%%</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; bad.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;bad </font>&gt;&gt; bad.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">. 制作完成</font>
+<font color="#40ffff">pause</font>
+<font color="#40ffff">cls</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;按任意键之后尝试调用死循环</font>
+bad
+</pre>
+为避免各种其他性质的问题，斑驳不再提供源代码的下载链接，而是在页面中放置源代码。
+如果不太了解如何使用上面的代码，可根据以下几个步骤完成第一个批处理脚本的制作：
+<pre>
+1. 创建脚本文件：	<em>Win</em>+<em>r</em> -&gt; <em>cmd</em> 回车 -&gt; 输入 <em>notepad test.bat</em> 回车
+
+2. 书写/复制代码：	<em>复制</em>以上代码到记事本，并使用 <em>Ctrl</em>+<em>s</em> 保存，然后关闭记事本
+
+3. 调试运行：	在命令提示符中输入命令 <em>test.bat</em> 回车调用脚本
+</pre>
+因为这个脚本会造成一个死循环，不会自己停下来的。我们就需要手动将它停下来，方法有很多，先说两种：
+<pre>
+键盘： <em>Ctrl</em>+<em>c</em> 强制中断批处理，在询问之后输入 <em>y</em> 并以回车结束便可退出
+鼠标： 直接点击命令提示符右上角的<em>关闭按钮</em>，但有特别的几种情况就不太好用了
+</pre></p>
+
+<p>推荐使用图形化的工具来配置 path 路径，待日后掌握了 set 命令，以及 pathman，命令提示符还是很牛X的。
+还需要注意的是：path 分为 <strong>系统变量</strong> ，和 <strong>用户变量</strong> 两个部分。
+系统变量会对当前计算机的所有用户都起作用！<br>
+<pre>
+方法： <em>我的电脑</em>/<em>计算机</em> -&gt; 右键<em>属性</em> -&gt; <em>高级</em>选项卡 -&gt; <em>环境变量</em>
+</pre>
+<div class='img'><img src='figure/p1-6.png' alt='gui-path' /></div></p>
+
+<p>注意：对于其他的路径，请不要随意的修改或者删除，可能造成某些软件或系统的调用失败哦~
+操作有风险，编辑需谨慎！</p>
+
+<br><a href='Ch1-0.html#content'>返回</a> | <a href='Ch1-1.html#message'>置顶</a> | <a href='Ch1-2.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

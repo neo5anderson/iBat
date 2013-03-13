@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 经验</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>KISS: Keep It Simple, Stupid~</div>
+				<h2>跳过密码认证的诡计</h2>
+<p>呵呵，别想歪了，这里的密码也是批处理本身的密码。
+单纯的总是讲解命令和语法总是闷闷的，根据网友的帖子以及斑驳自己的心得。
+将破解 if 语句的三种诡计说明给大家~</p><br>
+
+				<h3>诡计一</h3><hr width='80%' align='left'>
+<p>带有密码的脚本中 if 判断部分的脚本如下：
+<pre class='src'>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;passwd</font><font color="#ffff00">=</font>Input password: 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%passwd%</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;Delly&quot;</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;right</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Wrong password inputed! &amp; ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 </font>&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">exit</font>
+<font color="#ffff00">:right</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;You've got in!</font>
+<font color="#40ffff">pause</font>
+</pre>
+显然，普通的密码认证就是单纯的字符串比对，而且是明文的。
+如果我们并不知道密码就是 Delly 的话(注意：这里是大小写敏感的比对)。
+我们可以输入
+<pre class='cmd'>"=="" if not "</pre>
+很怪异么？其实并不怪异，因为我们入侵成功了！
+把上面输入的内容替换到源代码中的 %passwd% 看看
+<pre class='src'>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;&quot;</font>&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not </font><font color="#ffa0a0">&quot;&quot;</font><font color="#ffff00">=</font><font color="#ffa0a0">&quot;Delly&quot;</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;right</font>
+</pre>
+看懂的人肯定都笑了，因为这招太精辟了</p><br>
+
+
+				<h3>诡计二</h3><hr width='80%' align='left'>
+<p>相信看过上面破解方法的你以后不会用这种验证密码的方式了吧，那咱们去掉双引号，变成下面这种试试：
+<pre class='src'>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;passwd</font><font color="#ffff00">=</font>Input password: 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#40ffff">%passwd%</font><font color="#ffff00">==</font>Delly <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;right</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Wrong password inputed! &amp; ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 </font>&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">exit</font>
+<font color="#ffff00">:right</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;You've got in!</font>
+</pre>
+想了想，其实也是可以破解的
+<pre class='cmd'>""=="" if not x==</pre>
+很爽吧~
+</p><br>
+
+				<h3>诡计三</h3><hr width='80%' align='left'>
+<p>经过前面两个判断结构的熏陶，我们应该能够想到要把变量放在等号后面做比较了。
+在编译类语言中，这样子的确可以防止很多误操作。但是 . . .<br>
+比如我们将 if 判断语句改成
+<pre class='src'>
+<font color="#ffff00">if</font><font color="#40ffff">&nbsp;Delly</font><font color="#ffff00">==</font><font color="#40ffff">%passwd%</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;right</font>
+</pre>
+那么
+<pre class='cmd'>x (echo.) else</pre>
+回车试试看~<br>
+如果加上双引号
+<pre class='src'>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;Delly&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%passwd%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;right</font>
+</pre>
+看上去，真的没有破解的方法了。(*^__^*) 嘻嘻……
+<pre>
+我们先使用命令
+	
+	<em>" (echo.) else echo</em>
+
+会得到一个错误的提示，但这个提示正是我们所要的
+拿这个脚本做例子来说，错误提示为：
+
+	'echo" goto right' 不是内部或外部命令，
+	也不是可运行的程序或批处理文件
+
+难道我们不应该欢呼么？我们看到了 goto 后面的标签！
+再此运行脚本，使用命令
+
+	<em>" (echo.) else (goto right) &</em>
+
+哈哈~
+</pre></p><br>
+
+				<h3>预防措施</h3><hr width='80%' align='left'>
+<p>虽然在脚本中加密码是比较愚蠢的事情，因为都是明文不加密的东西。
+只要稍微懂一些批处理的哥们儿就能轻易地跳转到指定位置和查看对应的命令。
+还是放上一种常见的预防措施吧，毕竟这也是学习批处理很好的体裁。
+<pre class='cmd'>
+	setlocal enabledelayedexpansion
+	set /p passwd=input pwd:
+	set passwd="%passwd:"=%"
+	if "!passwd!"=="Delly" goto right
+</pre>
+不信的话，试试破解这个if语句吧</p><br>
+
+<br><a href='Ch4-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch4-3.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

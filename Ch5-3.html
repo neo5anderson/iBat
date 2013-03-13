@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>open</h2>
+<p>可以快速的切换路径了，快速打开某个应用程序也是很有必要的呀。
+好在Windows的快捷方式是允许直接在命令行上调用的，把它们放在特定的文件夹中，然后修改 open 所指向的路径。
+另外，还需要 list.bat 的列表文件存放在那个文件夹里面，请在 补充 中查看。
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;XPchrome</font><font color="#ffff00">=</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Local Settings\Application Data\Google\Chrome\Application\Chrome.exe&quot;</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Win7chrome</font><font color="#ffff00">=</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\AppData\Local\Google\Chrome\Application\Chrome.exe&quot;</font>
+<font color="#40ffff">ver</font><font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;6.&quot;</font>&nbsp;&gt; nul <font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(<font color="#40ffff">set</font><font color="#40ffff">&nbsp;chromepath</font><font color="#ffff00">=</font><font color="#40ffff">%XPchrome%</font>) <font color="#ffff00">else</font>&nbsp;(
+	<font color="#40ffff">set</font><font color="#40ffff">&nbsp;chromepath</font><font color="#ffff00">=</font><font color="#40ffff">%Win7chrome%</font>)
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.chrome (<font color="#ffa0a0">&quot;</font><font color="#40ffff">%chromepath%</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.opera (<font color="#ffa0a0">&quot;</font><font color="#40ffff">%ProgramFiles%</font><font color="#ffa0a0">\Opera\opera.exe&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.ie (
+	<font color="#ffa0a0">&quot;</font><font color="#40ffff">%ProgramFiles%</font><font color="#ffa0a0">\Internet Explorer\iexplore.exe&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.stardict (
+	<font color="#ffa0a0">&quot;</font><font color="#40ffff">%ProgramFiles%</font><font color="#ffa0a0">\StarDict\stardict.exe&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.vimrc (gvim <font color="#ffa0a0">&quot;</font><font color="#40ffff">%ProgramFiles%</font><font color="#ffa0a0">\Vim\_vimrc&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.dosbox (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Local Settings\Application Data\DOSBox&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gvim dosbox-0.74.conf
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">cmd</font>&nbsp;<font color="#ffa500">/c</font>&nbsp;<font color="#ffa0a0">&quot;C:\Program Files\DOSBox-0.74\DOSBox.exe&quot;</font>&nbsp;-userconf
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">popd</font>
+)
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.music (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">3</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (
+	<font color="#ff80ff">'REG QUERY </font><font color="#ffa0a0">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;My Music&quot;</font><font color="#ff80ff">'</font>
+) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;music</font><font color="#ffff00">=</font><font color="#40ffff">%%j</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;music (<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;getmusic</font>) <font color="#ffff00">else</font>&nbsp;(<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;gotmusic</font>)
+<font color="#ffff00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:getmusic</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\My Documents\My Music&quot;</font>&nbsp;(
+		<font color="#40ffff">set</font><font color="#40ffff">&nbsp;music</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\My Documents\My Music)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;404: not find the path, Press ENTER take
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font>&nbsp;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\My Documents\My Music as default</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;newpathm</font><font color="#ffff00">=</font>Or, Input path here: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;newpathm (
+		<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Invalid path &amp; ping </font><font color="#ffa0a0">127</font><font color="#ffa0a0">.1 </font>&gt; nul<font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font> )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;music</font><font color="#ffff00">=</font>newpathm
+
+<font color="#ffff00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:gotmusic</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%music%</font><font color="#ffa0a0">\我的播放列表&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;mtmp</font><font color="#ffff00">=</font><font color="#40ffff">%2</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;mtmp list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">%2</font>.wpl
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">popd</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.tools (
+<font color="#80a0ff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:: add your tools shortcut path instead of &quot;</font><font color="#40ffff">%programfiles%</font><font color="#80a0ff">\&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font>&nbsp;<font color="#40ffff">toolspath</font><font color="#ffff00">=</font><font color="#40ffff">%programfiles%</font>\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%toolspath%</font><font color="#ffa0a0">&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;ttmp</font><font color="#ffff00">=</font><font color="#40ffff">%2</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;ttmp list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%2</font>.lnk <font color="#40ffff">%2</font>.lnk <font color="#ffa0a0">2</font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;.\<font color="#40ffff">%2</font>&nbsp;.\<font color="#40ffff">%2</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">popd</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa500">/i</font>&nbsp;.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.game (
+<font color="#80a0ff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:: add your games shortcut path instead of &quot;</font><font color="#40ffff">%programfiles%</font><font color="#80a0ff">\&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font>&nbsp;<font color="#40ffff">gamepath</font><font color="#ffff00">=</font><font color="#40ffff">%programfiles%</font>\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%gamepath%</font><font color="#ffa0a0">&quot;</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;gtmp</font><font color="#ffff00">=</font><font color="#40ffff">%2</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;gtmp list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%2</font>.lnk <font color="#40ffff">%2</font>.lnk <font color="#ffa0a0">2</font>&gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">popd</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>将以下代码保存为 list.bat 存放在所需快速调用运行的目录中，立即执行一次后会生成两个文本。
+将 fresh.list 另做一个副本，重命名为 list.list。
+通过记事本编辑 list.list，里面已存有当前目录对应格式的文件名，需要你手动在后面添加注解，说明他们的作用。
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;last.list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dir /b, last</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;fresh.list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dir /b, current</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;list.list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type last</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;list.bak&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;just backup list</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;listnew.list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type, to update</font>
+<font color="#40ffff">REM</font>
+
+<font color="#40ffff">dir</font>&nbsp;<font color="#ffa500">/b</font><font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;.lnk&quot;</font>&nbsp;&gt; fresh.list
+<font color="#40ffff">fc</font>&nbsp;fresh.list last.list &gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">copy</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;fresh.list last.list &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">copy</font>&nbsp;<font color="#ffa500">/y</font>&nbsp;list.list list.bak%<font color="#40ffff">time</font>:~-5% &gt; nul
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;if you haven't installed Vim or Gvim</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;diff cannot work like what I want to do</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;but, if you have one, uncomment below command</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">REM</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;&nbsp;&nbsp;&nbsp;call diff list.list fresh.list</font>
+)
+<font color="#ffff00">:restart</font>
+<font color="#40ffff">cls</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">type</font>&nbsp;list.list <font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;<font color="#40ffff">type</font>&nbsp;fresh.list
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;whichone</font><font color="#ffff00">=</font>Input name here: 
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;whichone</font><font color="#ffff00">=</font><font color="#40ffff">%whichone:&quot;=%</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%whichone%</font><font color="#ffa0a0">. </font>| <font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;.lnk&quot;</font>&nbsp;&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;(<font color="#40ffff">set</font><font color="#40ffff">&nbsp;whichone</font><font color="#ffff00">=</font><font color="#40ffff">%whichone%</font>.lnk) <font color="#ffff00">else</font>&nbsp;(<font color="#40ffff">set</font><font color="#40ffff">&nbsp;whichone</font><font color="#ffff00">=</font><font color="#40ffff">%whichone%</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;whichone <font color="#ffa0a0">&quot;</font><font color="#40ffff">%whichone%</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not errorlevel</font>&nbsp;<font color="#ffa0a0">9009</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;Sorry, &quot;</font><font color="#40ffff">%whichone%</font><font color="#ffa0a0">&quot; is not found!</font>
+ping <font color="#ffa0a0">127</font>.1 &gt; nul
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;restart</font>
+</pre>
+还需要说明一下：
+<pre>
+<em>chrome</em>	默认安装的话，在 %programfiles% 里面没有的，仔细看看快捷方式的路径
+<em>_vimrc</em>	是 VIM 的配置文件，也可以 :e $VIMRUNTIME/../_vimrc
+<em>.lnk</em> 	是快捷方式的后缀名，只是默认不显示出来罢了
+<em>.wpl</em>	Windows Media playList 的后缀名，播放列表的文件格式有很多种哦
+
+<em>diff</em>	斑驳修改过的 gvimdiff，需要 gvim 软件。用于多文本文件的比对
+	如果没有安装 gvim，使用默认的 <strong>fc</strong> 命令也可以简单的 file compare，
+	但是功能上相去甚远
+</pre></p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-4.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

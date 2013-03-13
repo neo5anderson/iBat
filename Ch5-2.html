@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 综合实例</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>通过实现理想，证明实现理想是可能的；<br>
+					通过开发开源软件并发布，证明开源软件是可能的；<br>
+					即使是在中国。</div>
+				<h2>come</h2>
+<p>这是自定义快速到达某个目录的方法，省得每次都要重复输入长长的路径。
+加上 pushd 和 popd 命令，使得 come back 很容易实现。
+在 “到.bat” 的脚本中可与用户交互来创建到某个的新目录，更加体现了脚本的灵活性。</p>
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;/?&quot;</font>&nbsp;(
+<font color="#ffff00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:helpcome</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;A shortcut change direcotry into another one</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;you can use command &quot;come back&quot; back to this direcotry </font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;come </font><font color="#ffa500">^(</font><font color="#ffa0a0">&nbsp;where </font><font color="#ffa500">^)</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;where:</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;</font><font color="#ffa0a0">32</font><font color="#ffa0a0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:\Windows\System32\</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;pf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#40ffff">%ProgramFiles%</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Your Desktop: </font><font color="#40ffff">%Desktop%</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;note&nbsp;&nbsp;&nbsp;&nbsp;&quot;note&quot; on your Desktop</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;back&nbsp;&nbsp;&nbsp;&nbsp;backforward directory</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. NEO's Edition is Okay~</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Desktop&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\Desktop
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\桌面&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\桌面
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;Desktop <font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (
+	<font color="#ff80ff">'REG QUERY </font><font color="#ffa0a0">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;Desktop&quot;</font><font color="#ff80ff">'</font>
+) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%%j</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.32 <font color="#ffff00">call</font><font color="#ffff00">&nbsp;:push</font>&nbsp;<font color="#ffa0a0">&quot;C:\Windows\system32&quot;</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.d <font color="#ffff00">call</font><font color="#ffff00">&nbsp;:push</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">&quot;</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.note <font color="#ffff00">call</font><font color="#ffff00">&nbsp;:push</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">\note&quot;</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.pf <font color="#ffff00">call</font><font color="#ffff00">&nbsp;:push</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%programfiles%</font><font color="#ffa0a0">&quot;</font>&nbsp;
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.profile <font color="#ffff00">call</font><font color="#ffff00">&nbsp;:push</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">&quot;</font>&nbsp;
+<font color="#80a0ff">:: you can custom 'to where' below</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font>.<font color="#40ffff">%1</font><font color="#ffff00">==</font>.back <font color="#40ffff">popd</font>&nbsp;&amp;&amp; <font color="#40ffff">set</font><font color="#40ffff">&nbsp;popflag</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;pushflag (<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;eof</font>)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;popflag <font color="#40ffff">echo</font><font color="#ffa0a0">. Here: </font><font color="#40ffff">%cd%</font><font color="#ffa0a0">&nbsp;&amp; goto eof</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;helpcome</font>
+
+<font color="#ffff00">:eof</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;pushflag</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;popflag</font><font color="#ffff00">=</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+
+<font color="#ffff00">:push</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;pushflag</font><font color="#ffff00">=</font><font color="#ffa0a0">1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;%~1&quot;</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. saved DIR, </font><font color="#40ffff">%cd%</font><font color="#ffa0a0">&nbsp;&amp;&amp; pushd &quot;%~1&quot;</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. &quot;%~1&quot; doesn't exist</font>
+</pre>
+
+				<h3>补充</h3><hr width='80%' align='left'>
+<p>10年的时候斑驳写过一个中文版脚本集，感觉 come 并没有很多的体现编程艺术一书中的要点。
+于是乎，稍稍做了变动，便有了以下的“到.bat”。
+<pre class='src'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;针对本程序斑驳不负担保责任，欲知详细请查看 GPL.txt</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这是自由的程序，欢迎您在特定条件下再发布本程序。</font>
+<font color="#40ffff">REM</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再次感谢使用斑驳的脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;斑驳敬上</font>
+<font color="#40ffff">REM</font>
+
+<font color="#80a0ff">:: 设置用户定制路径的存储位置</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;outpath</font><font color="#ffff00">=</font>C:\Windows\system32
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;？&quot;</font>&nbsp;(
+<font color="#ffff00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:helpopen</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">cls</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;这是一个帮您前往特定位置或者目录的命令</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;命令格式：</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;到 路径</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;我的电脑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;显示已存在的磁盘驱动，并询问进一步操作</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;桌面&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前往桌面目录，并列举在桌面上的文件</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#40ffff">%outpath%</font>\open-stage.neo <font color="#40ffff">type</font>&nbsp;<font color="#40ffff">%outpath%</font>\open-stage.neo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;新建&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生成用户自定义的特定路径</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;实例：</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;到 桌面</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;斑驳敬上 :-</font><font color="#ffa500">^)</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\Desktop&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\Desktop
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%userprofile%</font><font color="#ffa0a0">\桌面&quot;</font>&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%userprofile%</font>\桌面
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;Desktop <font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">2</font><font color="#ffa0a0">*&quot;</font>&nbsp;<font color="#40ffff">%%i</font>&nbsp;in (<font color="#ff80ff">
+	'REG QUERY </font><font color="#ffa0a0">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot;</font><font color="#ff80ff">&nbsp;^| </font><font color="#40ffff">find</font><font color="#ff80ff">&nbsp;</font><font color="#ffa0a0">&quot;Desktop&quot;</font><font color="#ff80ff">'</font>
+) do <font color="#40ffff">set</font><font color="#40ffff">&nbsp;Desktop</font><font color="#ffff00">=</font><font color="#40ffff">%%j</font>
+
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;我的电脑&quot;</font>&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">setlocal</font>&nbsp;enabledelayedexpansion
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;磁盘驱动器类型&nbsp;&nbsp;文件系统 剩余空间 分区大小 卷标名称</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wmic logicaldisk get Description, DeviceID, FileSystem, FreeSpace, Size, VolumeName<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa500">/v</font>&nbsp;<font color="#ffa0a0">&quot;DeviceID&quot;</font>&nbsp;&gt; wmicq.tmp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">for</font>&nbsp;<font color="#ffa500">/f</font>&nbsp;<font color="#ffa0a0">&quot;tokens=</font><font color="#ffa0a0">1</font><font color="#ffa0a0">,2,3,4,5*&quot;</font>&nbsp;<font color="#40ffff">%%a</font>&nbsp;in (wmicq.tmp) do (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Free</font><font color="#ffff00">=</font><font color="#40ffff">%%d</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Size</font><font color="#ffff00">=</font><font color="#40ffff">%%e</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Free</font><font color="#ffff00">=</font>!Free:~0,-6!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">set</font><font color="#40ffff">&nbsp;Size</font><font color="#ffff00">=</font>!Size:~0,-6!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">. </font><font color="#40ffff">%%a</font><font color="#ffa0a0">&nbsp;</font><font color="#40ffff">%%b</font><font color="#ffa0a0">&nbsp;&nbsp;</font><font color="#40ffff">%%c</font><font color="#ffa0a0">&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#40ffff">!Free!</font><font color="#ffa0a0">兆&nbsp;&nbsp; </font><font color="#40ffff">!Size!</font><font color="#ffa0a0">兆&nbsp;&nbsp; </font><font color="#40ffff">%%f</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; wmicqt.tmp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">endlocal</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">type</font>&nbsp;wmicqt.tmp<font color="#ffff00">&nbsp;| </font><font color="#40ffff">find</font>&nbsp;<font color="#ffa500">/v</font>&nbsp;<font color="#ffa0a0">&quot;~0,-6兆&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#40ffff">del</font>&nbsp;wmic??.tmp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">pause</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;附加功能不再提供</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;感谢对斑驳的支持，</font><font color="#ffa500">^(</font><font color="#ffa0a0">*</font><font color="#ffa500">^^</font><font color="#ffa0a0">__</font><font color="#ffa500">^^</font><font color="#ffa0a0">*</font><font color="#ffa500">^)</font><font color="#ffa0a0">&nbsp;嘻嘻……</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+)
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;桌面&quot;</font>&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%Desktop%</font><font color="#ffa0a0">&quot;</font>&nbsp;&gt; nul &amp;&amp; 列表
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;position</font><font color="#ffff00">=</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;openname</font><font color="#ffff00">=</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">==</font><font color="#ffa0a0">&quot;新建&quot;</font>&nbsp;( <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;buildnew</font>&nbsp;) <font color="#ffff00">else</font>&nbsp;( <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;lookup</font>&nbsp;)
+<font color="#ffff00">:buildnew</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;<font color="#40ffff">%outpath%</font>\open-stage.bat <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;@echo off </font>&gt; <font color="#40ffff">%outpath%</font>\open-stage.bat
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;position</font><font color="#ffff00">=</font>请输入特殊路径： 
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%position%</font><font color="#ffa0a0">\&quot;</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;Nopos</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;openname</font><font color="#ffff00">=</font>请输入定义名称，不要含有空格： 
+<font color="#40ffff">echo</font><font color="#ffa0a0">.&nbsp;&nbsp;</font><font color="#40ffff">%openname%</font><font color="#ffa0a0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#40ffff">%position%</font><font color="#ffa0a0">&nbsp;</font>&gt;&gt; <font color="#40ffff">%outpath%</font>\open-stage.neo
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;if &quot;</font><font color="#ffa500">%%</font><font color="#ffa0a0">1&quot;==&quot;</font><font color="#40ffff">%openname%</font><font color="#ffa0a0">&quot; pushd &quot;</font><font color="#40ffff">%position%</font><font color="#ffa0a0">&quot; </font><font color="#ffa500">^&amp;^&amp;</font><font color="#ffa0a0">&nbsp;goto :eof&nbsp;&nbsp;</font>&gt;&gt; <font color="#40ffff">%outpath%</font>\open-stage.bat
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;定义 </font><font color="#40ffff">%openname%</font><font color="#ffa0a0">&nbsp;代表目录 </font><font color="#40ffff">%position%</font><font color="#ffa0a0">&nbsp;已生效，请使用命令 &quot;到&quot; 查看</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+
+<font color="#ffff00">:Nopos</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>e
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;抱歉，您输入特定的路径并不存在</font>
+ping <font color="#ffa0a0">127</font>.1 -n <font color="#ffa0a0">2</font>&nbsp;&gt; nul
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a &amp;&amp; <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+
+<font color="#ffff00">:lookup</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%*</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">pushd</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%*</font><font color="#ffa0a0">&quot;</font><font color="#ffff00">&nbsp;&amp; </font><font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+<font color="#80a0ff">:: 没有变量的情况</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;param</font><font color="#ffff00">=</font><font color="#40ffff">%1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not defined</font>&nbsp;param <font color="#ffff00">goto</font><font color="#ffff00">&nbsp;helpopen</font>
+<font color="#80a0ff">:: 查找用户自定义路径</font>
+<font color="#40ffff">find</font>&nbsp;<font color="#ffa0a0">&quot;</font><font color="#40ffff">%1</font><font color="#ffa0a0">&quot;</font>&nbsp;<font color="#40ffff">%outpath%</font>\open-stage.neo &gt; nul <font color="#ffa0a0">2</font>&gt; nul
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;errorlevel</font>&nbsp;<font color="#ffa0a0">1</font>&nbsp;<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;overflow</font>
+<font color="#40ffff">%outpath%</font>\open-stage.bat <font color="#40ffff">%*</font>
+<font color="#ffff00">goto</font><font color="#ffff00">&nbsp;:eof</font>
+
+<font color="#ffff00">:overflow</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;暂时没有其他功能</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;需要查看命令帮助，请输入 到 ？</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;联系斑驳~</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;blog: http://neo5simple.diandian.com</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;mailto: neo5simple@gmail.com</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+</pre>
+
+<p>两段代码的关键区别在于是否通过程序自动生成新的代码，代替手动添加。
+同上一节中的 clear.bat 相比，虽然都可以在代码中添加很多新的提示符或者目录位置，
+但是手动添加会带来很多问题，编写人员最起码需要先对语言有所了解，并且看懂了创造者的意图才成。
+虽然有注释和例子作为指导，但是自动生成代码这件事难道不是更招人喜欢吗？</p><br>
+
+<br><a href='Ch5-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch5-3.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

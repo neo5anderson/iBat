@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 经验</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>KISS: Keep It Simple, Stupid~</div>
+				<h2>分类笔记</h2><br>
+				<h3>选择</h3><hr width='80%' align='left'>
+<p>这是比较自由的事情。各种前辈遗留下来的问题，使得很多人人熟悉的第一个操作系统是 MS Windows。
+练习打字的工具不是 记事本 就是 Word。其实，选择是很多的：</p>
+<pre>
+	文本编辑器： notepad++、WPS、UltraEdit、Gvim...
+	网页浏览器： Chrome、Opera、FireFox...
+	。。。
+</pre>
+
+<p>重点并不是去更换应用程序，而是推荐大家打破思维定势，对各种垄断势力说“No” 尝试一下那些黑客的作品吧。
+关于批处理，先学会定制自己的终端，如果已经在写属于自己的脚本了，那就添加一个特定的 path 路径，开始脚本之旅。</p><br>
+
+				<h3>撰写</h3><hr width='80%' align='left'>
+<p>根据前面的知识，书写简单脚本肯定已经不在话下了。只需一点岁月的沉淀，很容易就会发光发热了。
+在开始写脚本之前，斑驳有这么几点小建议：
+<pre>
+要写注释，这一点很重要，而且要在正确的位置书写注释。
+完成一个脚本之后，最好加上简单的帮助，让别人很容易能明白这个脚本的用途。
+如果有多种可能的结果，最好使用 exit /b ?? 退出，?? 表示对应的返回值。
+	计算机编程都习惯使用 0 表示一个比较乐观的结尾
+	批处理中使用比零大的整数代表错误等级(errorlevel)，可参照附录中<a href='ps3.html' target='_blank'>其他命令返回值</a>
+如果脚本中使用了其他机器不一定存在的命令，要特别声明，或者直接在脚本中做相应的措施。
+	当然，并不是很推荐使用第三方的工具。这样子兼容性会变得很糟糕。
+</pre></p><br>
+
+				<h3>技巧</h3><hr width='80%' align='left'>
+<p>总是看文字也不成，多写点，成长会很快的
+<pre>
+如果你不知道 hosts 文件是干什么用的，请先上网了解一下
+里面存着以 IP地址 和 域名地址 作为字段的记录，设计的初衷是用来提高域名解析的速度
+
+如果你想屏蔽某个站点，可将 那个站点的域名与你自己的IP(这里指的是127.0.0.1)关联起来
+如果通过批处理直接屏蔽具体网站的话
+
+<em>echo 127.0.0.1 %Url% &gt;&gt; %systemroot%\system32\drivers\etc\hosts</em>
+
+<strong>但是如果某一天你想恢复对那个站点的访问呢？</strong>
+手动打开那个hosts文件，找到那个域名再加注释符。可能一般人都会觉得很麻烦
+
+<em>type hosts | find /v "%Url%" &gt; host</em>
+<em>move /y host hosts</em>
+
+干净有效
+</pre>
+还想说一下关于颜色的事情：
+<pre>
+ANSI.SYS 终端驱动程序
+DEVICE=[path]ANSI.SYS[/X|/K]
+	K 抑制AT键盘的扩充 将 Home PageUp End 视为相同意义
+	X 强制区别扩充键返回码
+	R 调整行卷动
+
+
+RSC[Ps;...Psm 可用来设置字体属性以及颜色
+RSC 是一个ASCII码，在命令提示符使用 Alt+27 就可以打印出来
+Ps 可有三个选项，选项之间使用 ; 分隔，最后一个选项使用 m 结束
+
+用后面的数字代替前面的 x
+x: 0 1 4 5 7 8 正常 粗体 下划线 闪烁 反相 隐藏
+3x: 黑 1红 2绿 3棕 4蓝 5紫红 6蓝紫 7白
+4x: 黑 1红 2绿 3棕 4蓝 5紫红 6蓝紫 7白
+</pre>
+看着晕晕的对不？其实很容易就能够将它投入使用。
+<pre class='cmd'>
+&gt; set NT=%windir%\system32
+&gt; echo device=%NT%\ANSI.SYS /X &gt; %NT%\CONFIG.NT
+&gt; COMMAND /CECHO.RSC[1;31mThe fox jumps over a dog.RSC[0m
+&gt; COMMAND /CECHO.RSC[1;32mThe fox jumps over a dog.RSC[0m
+&gt; COMMAND /CECHO.RSC[1;33mThe fox jumps over a dog.RSC[0m
+&gt; COMMAND /CECHO.RSC[1;34mThe fox jumps over a dog.RSC[0m
+&gt; COMMAND /CECHO.RSC[1;35mThe fox jumps over a dog.RSC[0m
+&gt; COMMAND /CECHO.RSC[1;36mThe fox jumps over a dog.RSC[0m
+</pre>
+显示出来的结果比较绚丽哦：
+<pre>
+<font color='red'><b>The fox jumps over a dog.</b></font>
+<font color='green'><b>The fox jumps over a dog.</b></font>
+<font color='yellow'><b>The fox jumps over a dog.</b></font>
+<font color='blue'><b>The fox jumps over a dog.</b></font>
+<font color='magenta'><b>The fox jumps over a dog.</b></font>
+<font color='cyan'><b>The fox jumps over a dog.</b></font>
+</pre>
+
+<p>不过，Windows XP 的终端不给力，很多时候都无法正常显示如上的结果。
+而 Server 2003 及其更高版本的 Windows 都是可以正常显示的。
+<a href='../iBatch/exp.htm#colors' target='_blank'>点击我，了解更多</a>。
+虽然不太好用，但是制作菜单还是挺漂亮的，并不是所有的用户都喜欢黑黑的屏幕。
+另外，附上一些常用的命令实例：</p>
+<pre>
+进程管理
+tskill ImageName | PID [/server:IP /a] [/v]
+
+taskkill [/s IP /u User /p Passwd] {
+	[/fi] [/pid PID |/im ImageName]} /t /f
+
+tasklist [/s IP /u User /p Passwd] [/m | /svc | /v] [/fi] [/fo]
+
+
+网络相关
+
+	用百度找点东西 [启用默认浏览器]
+	start http://www.baidu.com/s?wd=%KeyWord%
+	使用 IE 的话为：
+	explorer http://www.baidu.com/s?wd=%KeyWord%
+	
+
+	查看网卡的物理地址
+	ipconfig /all
+
+	arp绑定，避免arp攻击
+	arp -s %IP% %MAC%
+
+	磁盘映射
+	net use \\IP\ipc$ /user:Administrator &gt; nul
+	net use X: \\IP\Z$ "Password" /user:"UserName"
+
+
+其他
+
+图形化的警告提示
+echo msgbox "String %EV%" &gt; %tmp%\msg.vbs &amp;&amp; %tmp%\msg.vbs &amp;&amp; (
+	del %tmp%\msg.vbs )
+</pre>
+</p><br>
+
+				<h3>总结</h3><hr width='80%' align='left'>
+<pre>
+特殊符号
+
+	@	不显示后面的命令出来，就算是有 echo on 设置也会被隐藏的
+	&amp;	在同一行中多命令间的连接符，并发执行
+	&amp;&amp;	在同一行中多命令间的连接符，前面的命令正确执行完毕后执行后面的
+	||	在同一行中多命令间的连接符，前面的命名执行失败后才继续执行后面的
+	:	标签的引导符，使用 goto 和 call 的时候会用到
+	::	批处理文件中的注释符，默认是不会输出命令，但是会有空行输出
+	^	转义字符，在引号字符串里面转义 管道和重定向
+	%	转义字符，在脚本文件中转义 % 本身
+
+如果你对ASCII码熟悉一些的话，可以简单通过键盘来获取特殊字符，操作起来也比价简单，
+需要 Alt 和小键盘的数字键(笔记本的朋友们可以通过Fn将数字键盘打开，
+然后使用主键盘的上的小键盘数字键即可)。
+随便说几个常用的
+
+	ASCII:CR 十六进制是 0D 十进制便是 13 代表的意思是 换行符
+
+那么我们可以按住 Alt 不放，通过小键盘输入 1 3，然后松开Alt键。没错，自动换行了！
+当然，Enter 也会有类似的作用，而且也比较方便，
+但是其他的ASCII码所代表的符号就比较方便了。至于说其他的诸多对照关系，
+就作为留给大家自己动手的任务吧。
+像是 Tab (09), Escape (1B), Space (20) 云云 ... 
+
+另外要说明的是Ctrl也会让我们很惊奇，比如在cmd中我们使用 Ctrl+M 快捷键，O(∩_∩)O~
+还有很多很多哦，还是留给读者去发掘吧。 
+</pre>
+<pre>
+系统管理
+
+判断是否存在某个用户
+net user %UserName% 2&gt; nul &gt; nul &amp; echo. Yes || echo. No
+
+查看上次登录时间
+net user %UserName% | find "上次登录"
+
+关机
+at %time% Command 0 /delay:0 /powerdown &gt; nul
+at hh:mm:ss tsshutdn 0 /delay:0 /powerdown
+at \\IP %time% shutdown -f -[st]
+at /del /y
+
+tsshutdn.exe [wait_time] [/server:ServerName] [/reboot]
+	[/powerdown] [/delay:sec] [/v]
+eg: tsshutdn %waittime% /delay:0 /v
+
+远程关机
+shutdown -m \\IP -f -[sr] -t sec -c coms
+
+锁定计算机
+rundll32.exe user32.dll,LockWorkStation
+
+RegSvr32 [/u] [/s] [/n] [/i [:cmdline]] dllFileName
+	/u	卸载注册信息
+	/s	不显示消息框
+	/i	调用 DllInstall 传递一个可选[cmdline]
+	/n	不用调用 DllRegisterServer 必须跟 /i 一起使用
+eg: regsvr32 /u /s zipfldr.dll
+</pre>
+<pre>
+权限
+
+设定目录为everyone完全控制
+cacls %path% /T /G everyone:F
+
+文件访问权限
+cacls %FileName% /p %username%:n
+cacls %FileName% /g %username%:f
+
+给目录下的文件Everyone的Full权限
+cacls "%file%" /g "everyone" /f
+
+ps:
+Windows 7 的权限比较复杂，跟 类 UNIX 操作系统 的模式不太一致
+有空的话，好好研究一下它吧。
+</pre></p><br>
+
+<br><a href='Ch4-0.html#content'>返回</a> | <a href='#message'>置顶</a> | <a href='Ch4-2.html'>下一页</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This is Neo's Edition, all content under GPL license. loving Delly, NEO's Edition is Okay~ -->
+<html xmlns='http://www.w3.org/1999/xhtml' dir='ltr' xml:lang='zh-CN'>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=GBK'>
+		<link rel='stylesheet' href='icss.css' type='text/css' charset='GBK'>
+		<title>批处理小教程 - 基础</title>
+	</head>
+	<body>
+		<div id='wrapper'>
+			<div id='header'>
+				<h1>iBatch</h1>
+				<h2>Ver 3.0</h2>
+			</div>
+			<div id='menu'>
+				<ul>
+					<li><a href='index.html'>Home</a></li>
+					<li><a href='http://neo5simple.diandian.com' target='_blank'>Blog</a></li>
+					<li><a href='about.html'>About</a></li>
+					<li><a href='mailto:neo5simple@gamil.com'>Support</a></li>
+				</ul>
+			</div>
+			<div id='content'>
+				<div id='message'>不积跬步，无以至千里。</div>
+				<h2>细节</h2>
+<p>前面做了好多铺垫，文笔不咋地，多多见谅。后面多是技术知识，要加油喽。
+声明：后续将介绍的五个命令，没有粘贴帮助信息，不解的地方请自行查看系统帮助。
+推荐读者手动打开命令提示符，查询并了解相应帮助之后再进行阅读。</p><br>
+
+				<li id='echo'><h3>echo</h3></li><hr color='white' size=9px>
+<p>这个命令的确很简单，也很实用，因为它可以立即回显给我们需要的内容，
+尤其是在调试脚本的时候。兴奋之余，斑驳要考一考大家：
+如何使用在屏幕上输出 on 呢？</p>
+<pre class='cmd'>&gt; echo on</pre>
+
+<p>肯定不行，根据系统帮助得知：它的意思是保持显示命令提示符。
+尝试一下命令： echo off 就会发现，前面的路径以及大于号立刻消失不见了。
+这个时候不用害怕，并没有人入侵你的系统，只是它们隐藏起来而已。
+再一次使用上面框框中的命令便会恢复。</p>
+
+但是，斑驳的问题还是没有得到解答呀，如何在屏幕上只显示 on 或者 off 呢？
+<pre class='cmd'>&gt; echo.on</pre>
+没错，关键的时候，<strong>小数点</strong>真的很重要！如果你需要一个空行，也木有问题：
+<pre class='cmd'>&gt; echo.</pre>
+</p>
+
+<p>另外还需要注意的是，系统帮助中的 [ON | OFF] 表示：可选项为 ON 或者 OFF。
+中间的那个竖线是 <strong>逻辑或</strong> 的意思，使用 <strong>shift</strong> + <strong>\</strong> 就可以打出这个字符。
+如果你输入下面的内容作为命令的话，后果有些惨痛：
+<pre class='cmd'>
+&gt; echo on | off
+'off' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+</pre>
+这是因为在 shell 中，除了大于号、小于号之外，这个竖线也有非常特殊的意义。
+到底是干啥用的呢？别急，斑驳要从自来水管道说起 。 。 。</p>
+
+<p id='pipe'><em>管道</em> 是一个高效节能的建筑设备，它可以将上游生产出来的产品直接运送给下游再加工。
+抽象到计算机：将上一个命令的输出作为下一个命令的输入。
+这种想法绝对是明智之举，因为它避免了太多中间资源的损耗和延迟。
+明白了这个概念，那我们就来看一看前面命令出错的原因吧：
+<pre>
+<em>echo on | off</em>
+系统将其分解为 echo on 以及 off 两部分，中间的竖线 | 就是管道符
+也就是说，echo on 作为上一个命令，将输出的结果交给了下一命令 off
+
+echo on 这个命令显然是存在的，而且不会有错误信息。
+只不过它并不会产生任何输出，虽然在这一点上对管道来说并不重要。
+
+其实，根据错误的提示，我们也猜到问题出在 off 身上，
+因为 Windows 默认是没有叫做 off 的外部命令。
+
+<strong>所以在功能上分析</strong>：
+echo on 执行之后，确保命令提示符是回显的状态。
+然后通过管道，将空白的输出提交给 off 命令，这一步操作跟直接敲击 off 回车完全等价。
+但是很不幸的是，大多数的机器上面并没有 off 命令，所以就报错了。
+
+</pre>
+这样子说，应该弄明白了吧。
+管道在 shell 里面还是很吃香的，常见于各种数据流的查询操作。例如：
+<pre class='cmd'>&gt; type C:\boot.ini | find "timeout"</pre>
+
+回显 Windows 启动时默认延迟等待的时间(限 Windows XP/Server 2003，因为
+Windows Vista 以及之后的版本默认不再使用 boot.ini)。
+如果你只想单纯了解 find：
+
+<pre class='cmd'>&gt; find "timeout" C:\boot.ini</pre>
+
+但是很多时候 find 会匹配到很多结果，这时我们需要模式匹配的命令。
+接触过 bash 的哥们可能这样干过
+
+<pre class='cmd'>$ cat /etc/httpd/conf/httpd.conf | grep -v ^# | col -b</pre>
+
+以上命令用于显示 Apache 配置文件的有效信息，两个管道分别进行了正则模式匹配和踢出空白行。
+Windows 下面是不能这么干的(默认没有安装 grep 和 col 二进制文件)，
+不过 Resource Kit Tools 里面倒是有个 pgrep 挺方便的。<br>&nbsp;<br>
+
+附上一份关于 echo 命令的脚本
+
+<pre class='src' id='echo1'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;@ 之后的命令会被隐藏起来，不显示在屏幕上执行</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;使得此程序在一开始就不会显示出任何命令</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;然后通过 REM 来注释这些说明部分</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;使得您能更好的理解脚本中所涉及的代码的意思</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;而且，这些注释的内容都不会在运行过程中显示出来</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;只是在查看源代码的时候才能看到</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;正常情况下， :: 也可以当做注释符号</font>
+<font color="#80a0ff">:: echo 因为 :: 的存在，不会显示这一行的内容的</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;如果把命令默认隐藏的属性去除的话，:: 仍然会工作吗？</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;那我们就来看看吧。</font>
+
+<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;on</font>
+<font color="#80a0ff">:: echo 能看到我的话，说明 :: 已经没有注释的功能了</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;echo 能看到我的话，说明 REM 在 echo on 模式下会显示出来</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;这一句是单纯的 echo，所以命令以及显示内容都会出现</font>
+@<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;这样子，命令就不会显示出来了</font>
+<font color="#40ffff">pause</font>
+
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;为了方便代码的书写，大多数的批处理程序都是以如下的方式开场的</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;请注意一下代码：</font>
+
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">title</font>&nbsp;在这里输入批处理窗口所需显示的标题
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;通过在字符界面输入 color /? 查看对应的颜色编号</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;下面就是一些具体相关的操作代码了，根据需求自己书写吧</font>
+
+
+<font color="#40ffff">pause</font>
+
+</pre>
+另外说明一下， :: 这种注释的方法虽然比较简单，但是并不是一种通用而且有效的符号。
+如果只是单纯的注释文字描述性质的东西还好，如果是自己写的代码，推荐还是用 REM。
+毕竟 :: 表示一个不存在的标记位，当需要注释的行带有变量时，错误就多了。
+</p><br>
+
+				<li><h3>set</h3></li><hr color='white' size=9px>
+<p>这个命令很重要很重要的，几乎稍稍专业一点的脚本都使用了它。
+但是在学习之前，我们需要先补充另外的两个知识点：变量以及重定向。</p>
+
+<p><em>变量</em> 就是可以变化的容器。
+我们可以将数据存储在变量中，经过简单或复杂的运算还可以写回这个变量，因为它是可变的。
+一般来说，变量是分类的(比如 数字型、字符型、指针型、资源型等等)；
+不知道这些类型也没有关系，因为批处理是<strong>弱类型语言</strong>，也就是说，变量并不区分类型。
+除此之外，批处理中的变量都需要使用 % 标注出来，比如显示之前我们接触的 path
+<pre class='cmd'>&gt; echo %path% </pre>
+系统默认就给我们创建了些比较有用的变量，比如
+<pre>
+username userdomain windir userprofile
+os logonserver computername comspec
+
+time date cd random errorlevel
+cmdextversion cmdcmdline
+</pre>
+关于上面列出的系统变量，如果没有非常特殊的原因，最好不要去修改它们。
+当然，修改了它们也不会造成什么不太乐观的结果。具体会造成什么样的问题，就留下一点想象的空间吧</p>
+
+另外，还需要注意变量的命名方式：
+<pre>
+1、没有规则；
+2、没有规则；
+3、真的没有规则。
+</pre>
+先别傻笑，了解 set 命令设置和显示变量的命令之后，你可以尽情的测试。
+这里的变量名完全可以是数字、符号、汉字任何你能想到内容。
+不要去尝试创建一个引起不合语法的变量，例如：变量 = 的值是 =，或者 空格变量的值是 空格
+<pre class='cmd'>
+&gt; set ===
+&gt; set  =
+</pre>
+说了这么多，希望你能明白，开放没有规则的设置会有很多麻烦，
+下面的四条命令分别创建了两个不同的变量又修改了对应变量的值。
+<pre class='cmd'>
+&gt; set neo=working
+&gt; set neo =working
+
+&gt; set neo= working
+&gt; set neo = working
+</pre>
+可能有点晕，记住有错误的例子就成，不要尝试犯错这才是制定规则的原因。
+
+<p><em>重定向</em> 的概念就有点复杂了。首先，规定一下计算机输入输出设备：
+<pre>
+键盘，叫做 <strong>标准输入设备</strong>，代号 <em>0</em>；
+终端，也就是现在的命令提示符，它也有个专业的名字：<strong>标准输出设备</strong>，代号 <em>1</em>；
+另外，还会输出系统命令在调试阶段产生的错误提示信息，<strong>标准错误输出设备</strong> 就应运而生，
+	并且附着在 标准输出设备，也就是终端上面，代号 <em>2</em>。
+</pre>
+还记得之前总是提到的大于号和小于号吗？
+现在就是他们证明身份的时候了，我们先来打个比喻：
+漏斗的形状跟大于号很像吧，开口的那一边接收各种物品，然后运送到唯一的出口。
+重定向具体一点，可以叫做 重定向输入、重定向输出以及重定向错误输出。
+有些顿悟了？例如我们需要<strong>将终端上显示的内容保存在具体的文件里面</strong>，
+重定向输出就是一个很好的选择。我们使用一下刚刚获取的设备代号(学名叫做 <em>句柄</em>)。
+<pre>
+终端作为标准输出设备，代号是 1
+我们现在要让漏斗把原来输出到终端显示的东西重定向到文件，
+因为之前并没有提到 <em>文件</em> 的代号，我们就暂时用 ? 代替。
+所以就得到了：
+
+	<em>1&gt;?</em>
+
+其实，文件是没有代号的，所以，? 可以省略
+另外，我们至少还需要给出一个文件名来完成最初的愿望吧，这里暂时使用 test.txt 作为文件名
+而且，我们需要提供输出到终端的内容呀，就使用刚刚学会的 echo 吧：
+
+	<em>echo Hello Wolrd! 1&gt; test.txt</em>
+
+习惯上，代号 1 是可以省略不写，也就成了下面的样子
+
+	<em>echo Hello World! &gt; test.txt</em>
+
+</pre>
+有种似曾相识的感觉？
+回想一下第一章那段关于 <a href='Ch1-1.html#deadloop' target='_blank'>死循环的代码</a>。
+没错，对文本文件的写操作就是这么简单(如果你曾经尝试使用 C 语言进行文件内容操作，你就能明白它简单的程度)。
+不过，那个死循环的脚本中还提到了 <em>&gt;&gt;</em> 符号。
+<pre>
+其实很容易就可以讲的通，上面的例子使用 &gt; 将 Hello World! 重定向到 test.txt 文件
+
+如果我们再一次执行这条命令，试问：text.txt 文件的内容会是什么呢？
+肯定不会是两行 Hello World!
+因为单纯的 &gt; 会 <strong>先将文件清空，然后再写入数据</strong>。
+
+想要对重定向的设备追加输出内容，&gt;&gt; 就可以搞定。
+</pre>
+另外还有需要说明的：
+<pre>
+Windows 其实保留了很多 UNIX 的思想
+比如现在我们要说的 <strong>一切设备皆文件</strong> 的构思。
+别感到奇怪，在类UNIX操作系统中，所有的设备都可以当做文件进行访问。
+
+而 Windows 的命令提示符界面中，
+终端(也就是控制台，我们输入命令、显示数据的地方) 的设备名叫做 CON
+打印机也有设备名，叫做 PRN；还有空设备 NUL
+
+也就是说，echo Hello World! 使用重定向的方式可以进一步补全为
+
+	<em>echo Hello World! 1> con</em>
+
+其中 1 表示标准输出设备，也就是终端，而 con 表示终端设备的名称
+这条命令显然是此地无银三百两了，但是明白了这个，对后面写重定向会很好帮助哦。
+
+像是 PRN，大家就不用去尝试了，因为 echo 只输出
+想通过 PRN 打印 *.doc 的愿望暂时是行不通的。
+不过，那个空设备是灰常有用的，有太多系统提示和错误信息并不是用户想看到的
+我们可以用 NUL 把它们一一过滤掉。
+
+	<em>echo http://neo5simple.diandian.com > nul</em>
+	
+如果你尝试使用上面的命令，你会发现系统并不会显示出这段 URL
+并不是因为你的 Windows 变得和谐了，而是被空设备吃了
+NUL 什么都可以接收，只要你把数据丢给它，数据就会被它饥吞掉。
+</pre>
+重定向输入
+<pre>
+也就是暂时使用其他输入流代替键盘输入数据
+常见于向大命令集导入文件或字典，所以暂时超出了我们学习的进度
+还是举一个小例子吧
+
+	<em>sort &lt; unsortfile</em>
+
+不过这种命令需要导入文件的命令都是有专门的选项来控制接收的
+所以 Windows 使用重定向输入出现的频率并不是很高
+</pre>
+标准错误输出
+<pre>
+基础：它的代号是 2，重定向输出的符号是 &gt; 所以重定向错误输出是 2&gt;
+最常见的用途：过滤各种命令的错误提示信息
+
+比如，我们输入一个根本不存在的命令，系统就会发出错误提示：
+
+&gt; NoCMD5
+'NoCMD5' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+
+显然，NoCMD5 是一个不存在的命令
+如果与重定向输出配合使用，也会有那些提示
+因为这种信息是由标准错误输出设备搞出来的
+所以：
+
+	<em>NoCMD5 2&gt; nul</em>
+	
+屏幕上啥也不会输出了
+</pre>
+篇幅有限，综合的实例就不多写了，根据后面章节的代码即可快速掌握。
+另外还有关于 3-9 句柄的操作，但是理论过于啰嗦，操作性也不是很强，就不再展开叙述。
+想了解更多的话，可参考以下几点：
+<pre>
+1、重定向 0-2 句柄之后，会将原来的状态自动备份到后面的句柄中；
+2、重复的重定向，同样会引起自动备份；
+3、备份规则：检测第 i 个句柄是否存有备份，如果没有就备份，就是用 i 备份；
+	否则 i = i+1，之后重复检查直到 i 等于 9
+4、初识状态：0: keyboard 1: con 2: con 3-9: none
+</pre>
+</p>
+
+<p id='set'>绕了这么大一个圈子，我们来官方的解释：<strong>显示、设置或删除 cmd.exe 环境变量</strong>
+<pre class='cmd'>&gt; set pathext</pre>
+<pre class='cmd'>
+&gt; set Neo=iDelly
+&gt; set Neo
+</pre>
+<pre class='cmd'>
+&gt; set Neo=
+&gt; set Neo
+</pre>
+还可以用来做四则运算，优先级为
+<pre>
+<strong>()</strong> <strong>!</strong>(非) <strong>~</strong>(按位取反) <strong>-</strong>(负号)
+<strong>*</strong> <strong>\</strong> <strong>%</strong>(取余) <strong>+</strong> <strong>-</strong>
+<strong>&lt;&lt;</strong>(按位左移) <strong>&gt;&gt;</strong>(按位右移)
+<strong>&</strong>(按位与) <strong>|</strong>(按位或) <strong>^</strong>(按位异或)
+<strong>=</strong>(赋值) <strong>+= -= *= /= %= &= ^= |= &lt;&lt;= &gt;&gt;=</strong>
+<strong>,</strong>(逗号)
+</pre>
+<pre class='cmd'>
+&gt; set /a sum=1+2+3+4+5
+&gt; set /a sum%=4
+</pre>
+<pre>
+逻辑或 运算：
+
+	<em>set /a sum=4 | %sum%</em>
+
+咦，为何有错误呢？
+因为 command.com 将 | 解析成了 管道
+</pre>
+这里需要转义字符哦
+<pre class='cmd'>&gt; set /a sum=4 ^| %sum% </pre>
+同理，按位左移、按位右移也是需要转义的
+<pre class='cmd'>
+&gt; set /a sum=2 ^&gt;^&gt; 2
+&gt; set /a sum=2 ^&lt;^&lt; 2
+&gt; set /a sum=8 ^&gt;^&gt; 2
+</pre>
+另外，还可以直接操作八进制以及十六进制哦
+<pre class='cmd'>
+&gt; set /a add=0xF - 10
+&gt; set /a add=010 - 01
+</pre>
+只不过，每次完成计算之后，都会将得数换算成十进制。
+而且要记住，八进制是没有 8 或者 9 存在的哦。
+如果你还想做<a href='Ch3-1.html#dec2bin' target='_blank'>二进制</a>的计算，就需要自己手动写脚本喽~
+<pre class='cmd'>&gt; set /p NewVar=Input here: </pre>
+<pre class='cmd'>&gt; set /p 新变量=请在这里输入：</pre>
+可获取用户输入的字符，保存到 NewVar 变量中，之后拿着 %NewVar% 用就成。<br>
+Input here: 是提示信息，当然，变量和提示信息还可以是中文，提示信息也可以啥也不写
+<pre>
+关于字符串的应用：
+
+<strong>替换</strong>
+	将当前时间赋值给 now，同时将时间分隔符的 : 替换成 .
+	<em>set now=%time::=.%</em>
+	将 options 变量中的 " 替换为空，也就是删除变量里面的双引号
+	<em>set options=%options:"=%</em>
+	设置Java家目录的环境变量，把 D盘上的 jdk 路径替换为 C盘
+	<em>set JAVA_HOME=%jdk:D:\=C:\%</em>
+	修改CPU制造商ID
+	<em>set PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER:*,=Neo%</em>
+
+<strong>取子字符串</strong>
+	取得第一个可执行文件的类型
+	<em>set ext1=%pathext:~0,4%</em>
+	获取除最后一个类型之外的所有类型
+	<em>set exts=%pathext:~0,-5%</em>
+	取最后一个可执行文件类型
+	<em>set ext2=%pathext:~-4%</em>
+	获取当前年份
+	<em>set year=%date:~0,4%</em>
+
+	...
+
+</pre>
+举例：
+<pre class='src' id='set1'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">title</font>&nbsp;变量值替换的妙用
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;一般情况下都是由用户来输入数据的</font>
+<font color="#40ffff">set</font>&nbsp;<font color="#ffa500">/p</font><font color="#40ffff">&nbsp;NEO</font><font color="#ffff00">=</font>在这里输入数据：
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;但是这些数据很多时候并不是很符合规定</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;我们需要对其稍微做些操作</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;比如我们需要将用户输入的信息统一加上 双引号</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;例如：</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;&nbsp;&nbsp;&nbsp; set NEO=&quot;</font><font color="#40ffff">%NEO%</font><font color="#80a0ff">&quot;</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;但是有的用户可能已经加上双引号了</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这样子就会让我们的工作显得很有问题</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;因为会有出现两个重叠的双引号的可能性</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这里有一个比较妙的地方</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;直接将用户输入的双引号替换为空，然后在两边添加上双引号</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;NEO</font><font color="#ffff00">=</font><font color="#ffa0a0">&quot;</font><font color="#40ffff">%NEO:&quot;=%</font>&quot;
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这样子可以前后两次运行这个脚本</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;第一次输入的数据是 不含有双引号的</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;第二次输入的数据含有双引号</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;这样来看看两次是否都会只有一个双引号来标注数据</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;您刚输入的数据为：</font><font color="#40ffff">%NEO%</font>
+<font color="#40ffff">pause</font>
+</pre>
+关于取子串的语法可以概括成这样子：<strong>%Var:~Offset[,size]%</strong><br>
+而系统帮助后面的内容都是关于延迟环境变量的了，如果你看不懂，暂时可以放一放。
+<pre>
+有一个小问题：每次 echo 输出会自动换行，能不能不自动换行呢？
+在 bash 中可以很容易的使用 echo -n 选项完成这种任务，但是Windows并没有这个选项
+
+	<em>(
+	cls
+	ver
+	set /p = Some words &lt; nul
+	echo *$*$*
+	)</em>
+
+注意：别丢下括号，每一行用 回车 换行
+使用 set 和 重定向输入，代替了用户键盘输入信息，这里将原本环境变量所在的位置剔除了
+导致 set 的提示信息作为那个不自动换行的输出部分，说真的，很多时候需要这么干的
+然后通过 echo 输出字符串来验证 set 之后并没有自动换行
+最前面的 cls 起到清屏的作用，为了单独显示出系统版本号和测试输出部分
+</pre>
+
+<p>如果以后不想将命令写的很长，就可以使用上面的这种方式。
+用括号将命令做成一个小集团，最后使用右括号和回车就 OK 了。
+当然，这两个括号没有必要分别占用一行，与命令链接在一起也是可以的。
+但是每条命令最好单独成为一行，如果没有特殊需求的话。</p><br>
+
+				<li id='cmd'><h3>cmd</h3><hr color='white' size=9px></li>
+<p>主要用于创建新的命令解释程序实例。
+常用的选项其实不多，部分选项还可以通过注册表设定，方便下次直接使用。
+这里只说明几个重点部分的内容吧~
+<pre>
+	<em>cmd /q</em>
+等价于 cmd 之后 echo off，也就是在新的 cmd 中默认就不显示命令提示符号
+
+	<em>cmd /c "Command"</em>
+执行 Command 指定的命令或脚本之后，立即返回上一级 cmd
+
+	<em>cmd /k "Command"</em>
+执行 Command 指定的命令或脚本之后，等待用户的输入继续操作
+
+	<em>cmd /d</em>
+不使用 HLM|HCU\S\M\CP\AutoRun 中指定的自动运行项目，默认是使用的，
+如果你懂得这句话的意义，那么你有成为骇客的潜质了。
+
+	<em>cmd /e:off</em>
+关闭命令扩展功能，也可以使用 /x 选项，这两个是等效的，默认启用命令扩展
+
+	<em>cmd /f:on</em>
+取消 Tab 命令补全功能，而是 Ctrl+D 补全目录，Ctrl+F 补全文件。
+除此之外，可以让 Tab 恢复制表位的功能
+
+	<em>cmd /v:on</em>
+是 set 命令留下来的小尾巴，启用延迟扩展功能。
+它使得在循环控制中的变量可以实时更新，而不是保持最后的结果。
+短时间不容易让读者弄明白它的意义，但是它的用处是大大的。
+</pre>
+除了 cmd 命令本身可以修改 命令扩展、延迟扩展 之外，还有一个命令可以办到
+<pre>
+	禁用命令扩展功能，等价于 cmd /x 的效果
+	<em>setlocal disableextsions</em>
+
+	启用延迟扩展功能，等价于 cmd /v:on 的功能
+	<em>setlocal enabledelayedexpansion</em>
+
+使用 setlocal 命令的优势就是不需要创建新的 cmd 实例就可以设置扩展功能
+需要取消当前的设定，恢复到设定之前的状态也是可行的
+
+	<em>endlocal</em>
+
+值得一提的是，使用延迟扩展变量的时候标注变量的符号不再是 % ，而变成了 ! 
+所以，所有输出内容中的英文感叹号都被过滤不显示出来了。
+如果你想恢复到可以显示 ! 的状态，必须禁用延迟扩展功能。
+</pre>
+见下例：
+<pre class='src' id='cmd1'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">setlocal</font>&nbsp;disabledelayedexpansion
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;正常情况下，通过 echo 输出的 ! 是会正常显示出来的</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;默认状态的下输出一行英文状态的感叹号会是：</font>
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. !!!!!!!!!!!!!!!!!!!!!!!!!!!!</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;如果上面并没有感叹号，说明在注册表中开启了延缓扩展功能。</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;同样，后面我们可以通过 cmd /v:on 开启此功能</font>
+<font color="#40ffff">setlocal</font>&nbsp;disabledelayedexpansion
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;如果正常的话，之后的内容是不会显示出 !! 来的</font>
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;当然，还附加了 /k 选项，用户可继续输入命令操作</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;想要回到上一级cmd的话，使用 exit 命令就可以了</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">cmd</font>&nbsp;<font color="#ffa500">/v</font><font color="#ffff00">:on</font>&nbsp;<font color="#ffa500">/k</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;感叹号x2就不会显示出来了：!! 是不？</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;注意，在看到此行的时候，说明已经 exit 了新开启的 cmd</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;而且恢复了默认状态的延迟设置，可与之前同状态比较，之后为一行感叹号</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. !!!!!!!!!!!!!!!!!!!!!!!!!!!!</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">pause</font>
+</pre>
+以及 set 得到的例子，关于<strong id=set1>变量</strong>的例子
+<pre class='src' id='set2'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">title</font>&nbsp;变量的使用
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;使用set命令设置变量值</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;var1</font><font color="#ffff00">=</font>字符
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;var2</font><font color="#ffff00">=</font><font color="#ffa0a0">11</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;var3</font><font color="#ffff00">=</font>a,b,1,0,d%#@
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;使用 % 调用变量的值</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;显然，批处理中的变量都是弱类型的</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;var1: </font><font color="#40ffff">%var1%</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;var2: </font><font color="#40ffff">%var2%</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;var3: </font><font color="#40ffff">%var3%</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;下面我们来做个 setlocal 的相关测试</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;默认情况下设定一个变量 before</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;然后在 setlocal 之后设定变量 after</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;查看两个变量是否都可以使用，然后 endlocal</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;再尝试查看 before 和 after 两个变量</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;before</font><font color="#ffff00">=</font>before, haha
+<font color="#40ffff">setlocal</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;after</font><font color="#ffff00">=</font>after, lala
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;before: </font><font color="#40ffff">%before%</font><font color="#ffa0a0">; after: </font><font color="#40ffff">%after%</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;before</font><font color="#ffff00">=</font>before, xxxx
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;before: </font><font color="#40ffff">%before%</font><font color="#ffa0a0">; after: </font><font color="#40ffff">%after%</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">endlocal</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;before: </font><font color="#40ffff">%before%</font><font color="#ffa0a0">; after: </font><font color="#40ffff">%after%</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">pause</font>
+</pre>
+还要说明一点，除了 /c 选项之外，调用了多少次 cmd，就需要有对应个数的 exit 才可以正常的退出控制台。
+虽然感觉这个命令没啥作用，但是斑驳曾经的一个课程设计就因为它才得以实现的哦~</p><br>
+
+				<li id='start'><h3>start</h3><hr color='white' size=9px></li>
+<p>start 不是很常用，常见的也就是：<ul>
+<li>start /min Command/Program 最小化启动程序或命令。</li>
+<li>start /wait Commmand/Program 等待程序结束后再执行后面的命令。</li></ul>
+
+举个邪恶的小例子吧：
+<pre class='src' id='start1'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;还记得很久之前有些黑客做的洪水攻击么？</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;最简单的一种就是死亡之ping啦，嘿嘿，先别偷着淫笑</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;原理斑驳就不多说了，我们拿自己的网卡玩玩，不会出事的，放心~</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;稍后会打开16个窗口进行ping命令，需要快速定位到当前窗口的话</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;可使用快捷键 Alt+Shift+Tab 连续两次就可以了</font>
+<font color="#40ffff">pause</font>
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">start</font>&nbsp;ping <font color="#ffa0a0">127</font>.1 -l <font color="#ffa0a0">65500</font>&nbsp;-t
+<font color="#40ffff">pause</font>
+taskkill <font color="#ffa500">/f</font>&nbsp;<font color="#ffa500">/im</font>&nbsp;ping.exe
+<font color="#40ffff">cls</font>
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;之所以使用 </font><font color="#ffa0a0">16</font><font color="#ffa0a0">个ping 同时运行是因为在任意时刻</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;ping发出数据包的总和大小约等于 </font><font color="#ffa0a0">1</font><font color="#ffa0a0">M</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;如果你的机器不需要上网做其他事情的话，而且带宽允许</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;那么可以运行十次这个脚本，将10M的网络带宽全部夺取过来</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;呵呵，好像有人开始笑了，恩，如果有条件，开十个机器</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;每个机器都运行了十个这个脚本，没错，100M的带宽也被你搞垮了</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;不过，如今对于这种攻击，基本普通家用级别的路由就已经可以对付的了。</font>
+<font color="#40ffff">pause</font>
+</pre></p><br>
+
+				<li id='call'><h3>call</h3><hr color='white' size=9px></li>
+<p>专门用于脚本的命令，搞过汇编的哥们儿会很有感觉的。
+虽然还有 goto 可以直接跳转到标签，但是 call 拥有更加牛力的功能。
+<pre class='src' id='call1'>
+@<font color="#40ffff">echo</font><font color="#ffff00">&nbsp;off</font>
+
+<font color="#40ffff">title</font>&nbsp;参数的选取与使用
+<font color="#40ffff">color</font>&nbsp;<font color="#ffa0a0">0</font>a
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;请在字符界面中调用此脚本，并在后面追加几个参数</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">.</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;本脚本的文件名为： </font><font color="#40ffff">%0</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;如果没有追加参数，后面的内容仍然会显示出来</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;因为前面的课程中并没有涉及判断处理的内容</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">1</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%1</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%2</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">3</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%3</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">4</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%4</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">5</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%5</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">6</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%6</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">7</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%7</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">8</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%8</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">9</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%9</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;我们来写一个小例子吧</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;比如规定了当前脚本是用来显示第一个参数所代表的文本文件</font>
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;当然，因为判断结构还没有介绍，后面的代码作为感性认识即可</font>
+
+<font color="#40ffff">echo</font><font color="#ffa0a0">. ****************************************************************</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;exist</font>&nbsp;.\<font color="#40ffff">%1</font>&nbsp;<font color="#40ffff">type</font>&nbsp;.\<font color="#40ffff">%1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;not exist</font>&nbsp;<font color="#40ffff">%1</font>&nbsp;<font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;当前文件夹里面没有 </font><font color="#40ffff">%1</font>
+<font color="#40ffff">echo</font><font color="#ffa0a0">. ****************************************************************</font>
+
+<font color="#40ffff">REM</font><font color="#80a0ff">&nbsp;如果对if语句有写感性的认识，显示参数的代码可以做如下的修改</font>
+
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%1</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">1</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%1</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%2</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">2</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%2</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%3</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">3</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%3</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%4</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">4</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%4</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%5</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">5</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%5</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%6</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">6</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%6</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%7</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">7</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%7</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%8</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">8</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%8</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">set</font><font color="#40ffff">&nbsp;arg</font><font color="#ffff00">=</font><font color="#40ffff">%9</font>
+<font color="#ffff00">if</font><font color="#ffff00">&nbsp;defined</font>&nbsp;arg ( <font color="#40ffff">echo</font><font color="#ffa0a0">&nbsp;脚本之后的第 </font><font color="#ffa0a0">9</font><font color="#ffa0a0">&nbsp;个参数为： </font><font color="#40ffff">%9</font><font color="#ffa0a0">&nbsp;</font>)
+<font color="#40ffff">pause</font>
+</pre>
+跟句柄一样，参数最多只有九个，默认 %0 表示脚本文件本身。
+如果你并不想单个获取脚本传进来的参数，%* 可以帮你一次性获取全部参数。
+关于针对具体参数选项进行校对和判断的方法会在后面的章节中介绍，敬请期待哦~ </p><br>
+
+				<h3 id='ps'>附实例脚本列表</h3><hr color='white' size=9px>
+<p align='center'><br>
+<a href='#set1'>set 字符串替换</a><br>
+<a href='#set2'>set 变量 与 setlocal 之后的变量</a><br>
+<a href='#cmd1'>cmd /v 与 setlocal</a><br>
+<a href='#start1'>start 还记得那洪水么</a><br>
+<a href='#call1'>call 参数的表示</a><br></p>
+
+<p>小结一下，通过本章针对字符串输出、变量操作、命令提示符调用、启动程序、获取脚本参数等实例的学习。
+我们对批处理应该有了比较形象的认识，至于 管道 和 重定向，可以在各种语言，各种场合下得以发挥作用，
+因为他们实在太好用了。作为基础篇，初学者要稳扎稳打，把基本功练好，日后编写脚本才会得心应手，
+真诚的希望这些文字会给你带来些许的帮助。</p><br>
+
+<br><a href='Ch2-0.html#content'>返回</a> | <a href='Ch2-2.html#message'>置顶</a> | <a href='Ch3-0.html'>下一章</a>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div id='footer'>
+			Copyleft by <a href='http://neo5simple.diandian.com' target='_blank'>Neo, NEO's Edition is Okay</a>.<br/>
+			All content under <a href='http://www.thebigfly.com/gnu/lgpl/lgpl-v3.php' target='_blank'>GNU General Public License, Chinese (Simplified)</a>, <a href='http://www.gnu.org/copyleft/gpl.html' target='_blank'>Version 3, 29 June 2007</a><br/>
+			loving Delly . . .
+		</div>
+	</body>
+</html>
+
